@@ -1,108 +1,111 @@
 
-import React from 'react'
-import { Component } from 'react';
+import React, { useReducer, createContext } from 'react'
+import LinearGradient from 'react-native-linear-gradient'
+import TitleCard from './src/components/TitleCard'
+import { ITitleCardProps } from './src/components/TitleCard/TitleCard.props';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
+  Image,
+  ScrollView,
+  Modal
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+interface IState {
+  selectedStory: null | ITitleCardProps
+}
+
+interface IAction {
+  type: string
+  payload?: IState
+}
+
+const initialState: IState = { selectedStory: null };
+
+const reducer = (state: IState = initialState, action: IAction): IState => {
+  console.log('reducer firin')
+  switch (action.type) {
+    case 'open':
+      return action.payload || {selectedStory: null}
+    case 'close':
+      return state
+    default:
+      return state
+  }
+}
+const [state, dispatch] = useReducer(reducer, initialState)
+
+const stories: ITitleCardProps[] = [
+  {
+    title: 'Cyber Bullying',
+    moduleNumber: 2,
+    gradientValues: ['#ED386C', '#F5BC53'],
+    description: 'Guide Hannah, a high school sophomore, through the challenges of an interconnected social life and the pressures to become a cyber bully.',
+  },
+  {
+    title: 'Online Predators',
+    moduleNumber: 3,
+    gradientValues: ['#33A07A', '#229AAA'],
+    description: 'Here\'s another description that you can read'
+  }
+]
 
 const App: () => JSX.Element = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+      <LinearGradient colors={['#bbb', '#fff']} style={styles.linearGradient} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
+        <View style={styles.header}>
+          <Image style={styles.headerLogo} source={require('./src/assets/wacc-logo.png')} />
+          <View style={styles.headerText}>
+            <Text style={styles.title}>Digital Decisions</Text>
+            <Text style={styles.subtitle}>Washtenaw Area Council for Children</Text>
           </View>
+        </View>
+        <ScrollView contentContainerStyle={styles.main}>
+          {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
         </ScrollView>
-      </SafeAreaView>
+      </LinearGradient>
+      {state.selectedStory && 
+        <Modal 
+          animationType='slide' 
+          transparent={true} 
+          visible={!!state.selectedStory} 
+          onRequestClose={():void => dispatch({type: 'close'}) } >
+          <Text>woohoo!</Text>
+      </Modal>}
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  linearGradient: {
+    flex: 1,
+    padding: 20
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  header: {
+    flexDirection: 'row',
   },
-  body: {
-    backgroundColor: Colors.white,
+  headerLogo: {
+    height: 100,
+    width: 100
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  headerText: {
+    paddingLeft: 20,
+    paddingTop: 5
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  title: {
+    fontSize: 36
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
+  subtitle: {
+    fontSize: 24
   },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  main: {
+    flexDirection: 'row',
+
+    justifyContent: 'space-between',
+    paddingTop: 50
+  }
 });
 
 export default App;

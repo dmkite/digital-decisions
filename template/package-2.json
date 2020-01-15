@@ -1,5 +1,5 @@
 {
-  "name": "DigitalDecisions",
+  "name": "DigitalDecisions2",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -38,6 +38,10 @@
       "jsx",
       "json",
       "node"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build",
+      ".*__mocks__.*"
     ]
   }
 }
