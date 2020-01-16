@@ -21,4 +21,8 @@ export default interface ISelectionModalProps {
    * A method to navigate to the story page, provided by React Navigation
    */
   navigation: NavigationStackProp<string>
+  /**
+   * A method to update the Redux store with the selected story
+   */
+  selectStory: (title: string) => IAction
 }

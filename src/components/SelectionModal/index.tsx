@@ -1,6 +1,9 @@
 import React from 'react'
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import ISelectionModalProps from './SelectionModal.props'
+import {connect} from 'react-redux'
+import {bindActionCreators, Dispatch} from 'redux'
+import {selectStory, IAction} from '../../actions/story'
 
 const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
   const { dispatch = () => { }, title, description } = props
@@ -11,6 +14,7 @@ const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
 
   const handleSuccessPress = () => {
     dispatch({type: 'close'})
+    props.selectStory(props.title)
     props.navigation.navigate('Story')
   }
 
@@ -78,4 +82,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   }
 })
-export default SelectionModal
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({selectStory}, dispatch)
+
+export default connect(null, mapDispatchToProps)(SelectionModal)
