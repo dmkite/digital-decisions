@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native'
-import { ITitleCardProps } from '../TitleCard/TitleCard.props'
+import ISelectionModalProps from './SelectionModal.props'
 
-const SelectionModal = (props: ITitleCardProps): JSX.Element => {
+const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
   const { dispatch = () => { }, title, description } = props
   
   const handleRejectPress = () => {
@@ -10,8 +10,10 @@ const SelectionModal = (props: ITitleCardProps): JSX.Element => {
   }
 
   const handleSuccessPress = () => {
-    console.log('what now')
+    dispatch({type: 'close'})
+    props.navigation.navigate('Story')
   }
+
   return (
     <Modal
       animationType='fade'
