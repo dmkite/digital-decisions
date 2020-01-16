@@ -8,14 +8,13 @@ interface IImageMapper {
 }
 
 export default function TitleCard(props: ITitleCardProps): JSX.Element {
-  // const [modalIsOpen, changeModalStatus] = useState<boolean>(false)
   const imageMapper: IImageMapper = {
     module2: <Image style={styles.icon} source={require('../../assets/wacc-logo.png')} />
   }
 
   const handlePress = () => {
     const {dispatch = () => {}} = props
-    dispatch({type: 'open', selectedStory: props})
+    dispatch({type: 'open', payload: {selectedStory: props}})
   }
   return (
     <TouchableOpacity onPress={handlePress}>

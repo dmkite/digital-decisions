@@ -3,6 +3,8 @@ import React, { useReducer, createContext } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import TitleCard from './src/components/TitleCard'
 import { ITitleCardProps } from './src/components/TitleCard/TitleCard.props';
+import SelectionModal from './src/components/SelectionModal/'
+
 import {
   StyleSheet,
   View,
@@ -24,17 +26,15 @@ interface IAction {
 const initialState: IState = { selectedStory: null };
 
 const reducer = (state: IState = initialState, action: IAction): IState => {
-  console.log('reducer firin')
   switch (action.type) {
     case 'open':
       return action.payload || {selectedStory: null}
     case 'close':
-      return state
+      return initialState
     default:
-      return state
+      return initialState
   }
 }
-const [state, dispatch] = useReducer(reducer, initialState)
 
 const stories: ITitleCardProps[] = [
   {
@@ -52,6 +52,7 @@ const stories: ITitleCardProps[] = [
 ]
 
 const App: () => JSX.Element = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <>
       <LinearGradient colors={['#bbb', '#fff']} style={styles.linearGradient} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
@@ -66,14 +67,9 @@ const App: () => JSX.Element = () => {
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
         </ScrollView>
       </LinearGradient>
-      {state.selectedStory && 
-        <Modal 
-          animationType='slide' 
-          transparent={true} 
-          visible={!!state.selectedStory} 
-          onRequestClose={():void => dispatch({type: 'close'}) } >
-          <Text>woohoo!</Text>
-      </Modal>}
+      {console.log(state.selectedStory)}
+      {state.selectedStory && <SelectionModal {...state.selectedStory} dispatch={dispatch} />
+        }
     </>
   );
 };

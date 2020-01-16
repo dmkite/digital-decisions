@@ -19,5 +19,8 @@ export interface ITitleCardProps {
      */
     gradientValues: string[],
 
+    /**
+     *  A method to open the homepage modal
+     */
     dispatch?: (action: any) => any
 }
