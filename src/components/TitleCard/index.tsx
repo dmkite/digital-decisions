@@ -16,6 +16,7 @@ export default function TitleCard(props: ITitleCardProps): JSX.Element {
     const {dispatch = () => {}} = props
     dispatch({type: 'open', payload: {selectedStory: props}})
   }
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <LinearGradient colors={props.gradientValues} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>

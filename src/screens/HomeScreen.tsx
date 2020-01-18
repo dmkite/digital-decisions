@@ -11,6 +11,7 @@ import TitleCard from '../components/TitleCard'
 import { ITitleCardProps } from '../components/TitleCard/TitleCard.props';
 import SelectionModal from '../components/SelectionModal/'
 import { NavigationStackProp } from 'react-navigation-stack';
+import * as modules from '../stories'
 
 interface IState {
   selectedStory: null | ITitleCardProps
@@ -34,20 +35,17 @@ const reducer = (state: IState = initialState, action: IAction): IState => {
   }
 }
 
-const stories: ITitleCardProps[] = [
-  {
-    title: 'Cyber Bullying',
-    moduleNumber: 2,
-    gradientValues: ['#ED386C', '#F5BC53'],
-    description: 'Guide Hannah, a high school sophomore, through the challenges of an interconnected social life and the pressures to become a cyber bully.',
-  },
-  {
-    title: 'Online Predators',
-    moduleNumber: 3,
-    gradientValues: ['#33A07A', '#229AAA'],
-    description: 'Here\'s another description that you can read'
+const stories: ITitleCardProps[] = Object.keys(modules).reduce((acc: ITitleCardProps[], modName: any): ITitleCardProps[] => {
+  const {title, moduleNumber, gradientValues, description} = modules[modName]
+  if (!title || !moduleNumber || !gradientValues || !gradientValues.length || !description) {
+    return acc
   }
-]
+  return [...acc, {title, moduleNumber, gradientValues, description}]
+}, [])
+
+// const stories: ITitleCardProps[] = [
+//   {title: 'title', description: 'desc here', gradientValues: ['#fab', '#893'], moduleNumber:2}
+// ]
 
 export interface INavigationProps{ 
   navigation: NavigationStackProp<string>
@@ -69,7 +67,6 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
         </ScrollView>
       </LinearGradient>
-      {console.log(state.selectedStory)}
       {state.selectedStory && <SelectionModal description={state.selectedStory.description} title={state.selectedStory.title} dispatch={dispatch} navigation={props.navigation}/>
         }
     </>

@@ -1,20 +1,20 @@
 import React from 'react'
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import ISelectionModalProps from './SelectionModal.props'
-import {connect} from 'react-redux'
-import {bindActionCreators, Dispatch} from 'redux'
-import {selectStory, IAction} from '../../actions/story'
+import { connect, batch } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import { selectStory, IAction } from '../../actions/story'
 
 const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
   const { dispatch = () => { }, title, description } = props
-  
+
   const handleRejectPress = () => {
-    dispatch({type: 'close'})
+    dispatch({ type: 'close' })
   }
 
   const handleSuccessPress = () => {
-    dispatch({type: 'close'})
     props.selectStory(props.title)
+    dispatch({ type: 'close' })
     props.navigation.navigate('Story')
   }
 
@@ -24,23 +24,23 @@ const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
       transparent={true}
       visible={!!props.title}
       onRequestClose={(): void => dispatch({ type: 'close' })} >
-      <TouchableWithoutFeedback onPress={handleRejectPress}> 
-      <View style={styles.blur} >
+      <TouchableWithoutFeedback onPress={handleRejectPress}>
+        <View style={styles.blur} >
 
-        <View style={styles.modal}>
-          <Text style={[styles.whiteText, styles.titleText]}>{title}</Text>
-          <Text style={[styles.whiteText, styles.descText]}>{description}</Text>
-          <View style={styles.buttonBlock}>
-            <TouchableOpacity style={styles.button} onPress={handleRejectPress}>
-              <Text style={styles.whiteText}>Cancel</Text>
-            </TouchableOpacity>
+          <View style={styles.modal}>
+            <Text style={[styles.whiteText, styles.titleText]}>{title}</Text>
+            <Text style={[styles.whiteText, styles.descText]}>{description}</Text>
+            <View style={styles.buttonBlock}>
+              <TouchableOpacity style={styles.button} onPress={handleRejectPress}>
+                <Text style={styles.whiteText}>Cancel</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={handleSuccessPress}>
-              <Text style={styles.whiteText}>Continue</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleSuccessPress}>
+                <Text style={styles.whiteText}>Continue</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
 
       </TouchableWithoutFeedback>
     </Modal>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   descText: {
-    lineHeight:20,
+    lineHeight: 20,
     marginBottom: 20
   },
   whiteText: {
@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({selectStory}, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({ selectStory }, dispatch)
 
 export default connect(null, mapDispatchToProps)(SelectionModal)
