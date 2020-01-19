@@ -34,7 +34,9 @@ const Story = (props: any) => {
               <Icon name='undo' size={30} color={props.storyHistory.length ? '#555' : '#55555550'}/>
             </TouchableWithoutFeedback>
           </View>
-          <Passage content={props.selectedStory.passages[0]}/>
+          {console.log(props.selectedStory.passages[0])}
+          <Passage
+            {...props.selectedStory.passages[0]}/>
         </ImageBackground>
       </LinearGradient>
     </>

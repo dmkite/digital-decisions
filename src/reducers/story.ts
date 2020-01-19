@@ -1,5 +1,6 @@
 import { SELECT_STORY, SELECT_PASSAGE, ADD_PASSAGE_NAME, GO_TO_LAST_PASSAGE } from '../actions/story'
 import * as modules from '../stories'
+import { ImageSourcePropType } from 'react-native'
 
 interface IPassage {
   pid: string
@@ -9,7 +10,7 @@ interface IPassage {
 
 export interface IJSXContent {
   JSXType: string
-  content: string
+  content: string | ImageSourcePropType
   linksTo: string
 }
 

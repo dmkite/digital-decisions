@@ -1,42 +1,30 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native'
 import IPassageProps from './passage.props'
-import IJSXContent from '../../reducers/story'
-
-/**
- * 
- * @param props export interface IJSXContent {
-  JSXType: string
-  content: string
-  linksTo: string
-}
- */
+import {IJSXContent} from '../../reducers/story'
 
 const Passage = (props: IPassageProps) => {
-  props.content.content = [
-    {JSXType: 'text', content: 'hullo', linksTo: null}
-  ]
-
-  const generateJSX = (content: IJSXContent, i: number): JSX.Element => {
-    switch(content.JSXType) {
+  const generateJSX = (passage: IJSXContent, i: number): JSX.Element => {
+    console.log(passage)
+    switch(passage.JSXType) {
       case 'text':
-        return <Text style={styles.passageText} key={i}>{content.content.content}</Text>
+        return <Text style={styles.passageText} key={i}>{passage.content}</Text>
       case 'link':
-        return <TouchableWithoutFeedback key={i}><Text>
-          {content.content.content}
+        return <TouchableWithoutFeedback key={i}><Text style={styles.link}>
+          {passage.content}
           </Text>
           </TouchableWithoutFeedback>
       case 'image':
-        return <Image source={content.content.content}/>
+        return <Image source={passage.content}/>
       default:
-        return <Text key={i}>Did not account for {content.JSXType}</Text>
+        return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
   }
 
   return (
     <View style={styles.outerBorder}>
       <View style={styles.passageContent}>
-        {props.content.content.map(generateJSX)}
+        {props.content.map(generateJSX)}
       </View>
     </View>
   )
@@ -52,20 +40,26 @@ const styles = StyleSheet.create({
     borderColor: '#555',
     borderRadius: 10,
     marginTop: 20,
-    marginRight: 20,
-    flexGrow: 1
+    marginRight: 110,
+    flexGrow: 1,
+    backgroundColor: '#ffffff50'
   },
   passageContent: {
     borderWidth: 3,
     borderColor: '#555',
     borderRadius: 10,
-    margin: 10,
+    margin: 5,
+    height:500,
+    padding:10,
+    flex:1
   },
   link: {
-    color: 'red'
+    color: 'teal',
+    fontWeight: 'bold',
+    fontSize: 20
   },
   passageText: {
-    fontSize: 24,
+    fontSize: 20,
     color: '#000'
   }
 })
