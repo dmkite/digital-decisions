@@ -10,8 +10,6 @@ const storyConverter = (story, outputname) => {
   
   const getMetaData = openTag => {
     if(!openTag) return {pid: null, name: null}
-    console.log(openTag.split('pid="'))
-    console.log(openTag)
     const pid = openTag.split('pid="')[1].split('"')[0]
     const name = openTag.split('name="')[1].split('"')[0]
     return {pid, name}
@@ -109,6 +107,20 @@ const storyConverter = (story, outputname) => {
     return Object.assign({}, meta, {content: JSXElementList})
   })
   
-  
-  require('fs').writeFileSync(`./${outputname}.json`, JSON.stringify(formattedPassages, null, 2))
+  const indexedPassages = formattedPassages.reduce((acc, passage) => {
+    acc[passage.name] = passage
+    return acc
+  }, {})
+
+  const finishedModule = {
+    title: '',
+    moduleNumber: '',
+    description: '',
+    gradientValues: [],
+    passages: indexedPassages
+  }
+  require('fs').writeFileSync(`./${outputname}.json`, JSON.stringify(finishedModule, null, 2))
 }
+
+
+module.exports = storyConverter
