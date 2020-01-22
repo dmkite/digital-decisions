@@ -2,20 +2,25 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native'
 import IPassageProps from './passage.props'
 import {IJSXContent} from '../../reducers/story'
+import {selectPassage} from '../../actions/story'
+import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
+import Phone from '../Phone'
 
 const Passage = (props: IPassageProps) => {
+  const handlePress = (passageName: string) => props.selectPassage(passageName)
+
   const generateJSX = (passage: IJSXContent, i: number): JSX.Element => {
-    console.log(passage)
     switch(passage.JSXType) {
       case 'text':
         return <Text style={styles.passageText} key={i}>{passage.content}</Text>
       case 'link':
-        return <TouchableWithoutFeedback key={i}><Text style={styles.link}>
+        return <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}><Text style={styles.link}>
           {passage.content}
           </Text>
           </TouchableWithoutFeedback>
       case 'image':
-        return <Image source={passage.content}/>
+        // return <Image source={passage.content}/>
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
@@ -24,7 +29,8 @@ const Passage = (props: IPassageProps) => {
   return (
     <View style={styles.outerBorder}>
       <View style={styles.passageContent}>
-        {props.content.map(generateJSX)}
+        {/* {props.content.map(generateJSX)} */}
+        <Phone/>
       </View>
     </View>
   )
@@ -64,5 +70,6 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Passage
+const mapDispatchToProps = dispatch => bindActionCreators({selectPassage}, dispatch)
+export default connect(null, mapDispatchToProps)(Passage)
 

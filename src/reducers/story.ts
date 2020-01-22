@@ -35,7 +35,7 @@ interface IAction {
 
 const initialState: IState = {
   selectedStory: null,
-  selectedPassage: null,
+  selectedPassage: 'Welcome!',
   storyHistory: [],
 }
 

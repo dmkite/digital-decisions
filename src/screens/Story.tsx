@@ -10,8 +10,6 @@ import {goToLastPassage, IAction} from '../actions/story'
 import { bindActionCreators, Dispatch } from 'redux'
 
 const Story = (props: any) => {
-
-  const [passageName, setPassageName] = useState<string>('The Beginning')
   const { selectedStory: {
     gradientValues = ['#ff0000', '#00ff00'],
     title = 'default',
@@ -34,9 +32,8 @@ const Story = (props: any) => {
               <Icon name='undo' size={30} color={props.storyHistory.length ? '#555' : '#55555550'}/>
             </TouchableWithoutFeedback>
           </View>
-          {console.log(props.selectedStory.passages[0])}
           <Passage
-            {...props.selectedStory.passages[0]}/>
+            {...props.selectedStory.passages[props.selectedPassage]}/>
         </ImageBackground>
       </LinearGradient>
     </>
@@ -68,7 +65,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state: AppState) => ({ selectedStory: state.story.selectedStory, storyHistory: state.story.storyHistory })
+const mapStateToProps = (state: AppState) => ({ selectedStory: state.story.selectedStory, storyHistory: state.story.storyHistory, selectedPassage: state.story.selectedPassage })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({goToLastPassage}, dispatch)
 
