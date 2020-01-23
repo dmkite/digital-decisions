@@ -5,9 +5,10 @@ import {IJSXContent} from '../../reducers/story'
 import {selectPassage} from '../../actions/story'
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
-import Phone from '../Phone'
+import {AppState} from '../../store'
 
 const Passage = (props: IPassageProps) => {
+  if(!props.selectedPassage) props.selectedPassage = 'Welcome!'
   const handlePress = (passageName: string) => props.selectPassage(passageName)
 
   const generateJSX = (passage: IJSXContent, i: number): JSX.Element => {
@@ -29,8 +30,7 @@ const Passage = (props: IPassageProps) => {
   return (
     <View style={styles.outerBorder}>
       <View style={styles.passageContent}>
-        {/* {props.content.map(generateJSX)} */}
-        <Phone/>
+        {props.passages[props.selectedPassage].content.map(generateJSX)}
       </View>
     </View>
   )
@@ -69,7 +69,12 @@ const styles = StyleSheet.create({
     color: '#000'
   }
 })
+const mapStateToProps = (state: AppState) => ({
+  selectedPassage: state.story.selectedPassage, 
+  passages: state.story.passages
+})
 
 const mapDispatchToProps = dispatch => bindActionCreators({selectPassage}, dispatch)
-export default connect(null, mapDispatchToProps)(Passage)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Passage)
 
