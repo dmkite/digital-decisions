@@ -1,4 +1,5 @@
 import { IAction } from "../../actions/story";
+import { IPassage } from "../../reducers/story"
 
 interface IJSXContent {
   JSXType: string
@@ -6,24 +7,17 @@ interface IJSXContent {
   linksTo: string
 }
 
-export default interface IPassageProps {
-  /**
-   * The passage information to be rendered
-   */
-  passage: IJSXContent[]
-
-  /**
-   * A Redux action to advance the story
-   */
-  selectPassage: (passageName:string) => IAction
-
-  /**
-   * The json modules from the Redux store
-   */
-  passages: IJSXContent[]
-
-  /**
-   * The title associated with a specific passage
-   */
-  selectedPassage: string
+interface IPassageEntries {
+  [key:string]: IPassage
 }
+
+export interface IDispatchProps {
+  selectPassage: any
+}
+
+export interface IStateProps {
+  selectedPassage: string
+  passages: IPassageEntries
+}
+
+export default interface IPassageProps extends IDispatchProps, IStateProps {}

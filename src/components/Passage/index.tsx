@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native'
-import IPassageProps from './passage.props'
+import IPassageProps, {IDispatchProps, IStateProps} from './passage.props'
 import {IJSXContent} from '../../reducers/story'
 import {selectPassage} from '../../actions/story'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import {connect} from 'react-redux'
 import {AppState} from '../../store'
 
@@ -69,12 +69,13 @@ const styles = StyleSheet.create({
     color: '#000'
   }
 })
-const mapStateToProps = (state: AppState) => ({
+
+const mapStateToProps = (state: AppState): IStateProps => ({
   selectedPassage: state.story.selectedPassage, 
   passages: state.story.passages
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({selectPassage}, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<AppState>):IDispatchProps => bindActionCreators({selectPassage}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)
 

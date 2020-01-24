@@ -2,7 +2,7 @@ import { SELECT_STORY, SELECT_PASSAGE, ADD_PASSAGE_NAME, GO_TO_LAST_PASSAGE } fr
 import { ImageSourcePropType } from 'react-native'
 import * as modules from '../stories'
 
-interface IPassage {
+export interface IPassage {
   pid: string
   name: string
   content: IJSXContent[]
