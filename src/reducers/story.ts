@@ -1,47 +1,15 @@
 import { SELECT_STORY, SELECT_PASSAGE, ADD_PASSAGE_NAME, GO_TO_LAST_PASSAGE } from '../actions/story'
-import { ImageSourcePropType } from 'react-native'
-import * as modules from '../stories'
-
-export interface IPassage {
-  pid: string
-  name: string
-  content: IJSXContent[]
-}
-
-export interface IJSXContent {
-  JSXType: string
-  content: string | ImageSourcePropType
-  linksTo: string
-}
-
-interface IStory {
-  title: string
-  moduleNumber: number
-  gradientValues: string[]
-  description: string,
-  passages: IPassage[]
-}
-
-interface IState {
-  selectedStory: string | null
-  selectedPassage: string
-  passageHistory: string[]
-  passages: IPassage[]
-}
-
-interface IAction {
-  type: string
-  payload: string
-}
-
-const initialState: IState = {
+import modules from '../stories'
+import {IStoryState, IAction} from '../IRedux'
+ 
+const initialState: IStoryState = {
   selectedStory: null,
   selectedPassage: 'Welcome!',
   passageHistory: [],
-  passages: []
+  passages: {}
 }
 
-export const storyReducer = (state: IState = initialState, action: IAction): IState => {
+export const storyReducer = (state: IStoryState = initialState, action: IAction): IStoryState => {
   switch( action.type) {
     case SELECT_STORY:
       const moduleName: string = action.payload.split(' ').join('')

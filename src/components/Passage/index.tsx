@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native'
 import IPassageProps, {IDispatchProps, IStateProps} from './passage.props'
-import {IJSXContent} from '../../reducers/story'
 import {selectPassage} from '../../actions/story'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, Dispatch, Action } from 'redux'
 import {connect} from 'react-redux'
 import {AppState} from '../../store'
+import {IJSXContent, IStoryState} from '../../IRedux'
 
 const Passage = (props: IPassageProps) => {
   if(!props.selectedPassage) props.selectedPassage = 'Welcome!'
@@ -75,7 +75,7 @@ const mapStateToProps = (state: AppState): IStateProps => ({
   passages: state.story.passages
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<AppState>):IDispatchProps => bindActionCreators({selectPassage}, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>):IDispatchProps => bindActionCreators({selectPassage}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)
 

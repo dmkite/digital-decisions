@@ -7,7 +7,7 @@ import Passage from '../components/Passage'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {goToLastPassage, IAction} from '../actions/story'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, Dispatch, Action } from 'redux'
 
 const Story = (props: any) => {
   const { selectedStory: {
@@ -16,7 +16,6 @@ const Story = (props: any) => {
     moduleNumber = 0 } } = props
 
   const handleBackPress = (): null | IAction => {
-    console.log('FIRING')
     return props.passageHistory.length
       ? props.goToLastPassage()
       : null
@@ -63,8 +62,18 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state: AppState) => ({ selectedStory: state.story.selectedStory, passageHistory: state.story.passageHistory, selectedPassage: state.story.selectedPassage })
+interface IStateProps {
+  selectedStory: string | null
+  passageHistory: string[]
+  selectedPassage: string
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({goToLastPassage}, dispatch)
+const mapStateToProps = (state: AppState): IStateProps => ({ selectedStory: state.story.selectedStory, passageHistory: state.story.passageHistory, selectedPassage: state.story.selectedPassage })
+
+interface IDispatchProps {
+  goToLastPassage: () => void
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({goToLastPassage}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Story)

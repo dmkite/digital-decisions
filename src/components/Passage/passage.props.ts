@@ -1,23 +1,12 @@
-import { IAction } from "../../actions/story";
-import { IPassage } from "../../reducers/story"
-
-interface IJSXContent {
-  JSXType: string
-  content: string
-  linksTo: string
-}
-
-interface IPassageEntries {
-  [key:string]: IPassage
-}
+import {IPassageObject, IAction} from '../../IRedux'
 
 export interface IDispatchProps {
-  selectPassage: any
+  selectPassage: (passageName: string) => IAction
 }
 
 export interface IStateProps {
   selectedPassage: string
-  passages: IPassageEntries
+  passages: IPassageObject
 }
 
 export default interface IPassageProps extends IDispatchProps, IStateProps {}
