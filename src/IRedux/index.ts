@@ -40,8 +40,20 @@ export interface IPassage {
 
 export interface IJSXContent {
   JSXType: string
-  content: string
-  linksTo: string
+  content: string | IPhoneContent
+  linksTo: string | null
+}
+
+export interface IPhoneContent {
+  name: string
+  image?: string
+  messages: ITextContent[]
+}
+
+export interface ITextContent {
+  text: string
+  isReceived: boolean
+  image?: string
 }
 
 export interface IAction {

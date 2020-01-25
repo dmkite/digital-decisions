@@ -16,6 +16,7 @@ const storyConverter = (story, outputname) => {
   }
   
   const splitText = body => {
+    console.log(body)
     const elements = body.split('\n').filter(e => !!e)
     const formatted = elements.map(e => {
       if(e.trim().startsWith('<img')) return handleImg(e)
@@ -99,7 +100,8 @@ const storyConverter = (story, outputname) => {
     return mappedContent
   }
   
-  const formattedPassages = passages.map(p => {
+  const formattedPassages = passages.map(p, i => {
+    if (i !== 0) return
     const {openTag, body} = splitPassage(p)
     const meta = getMetaData(openTag)
     const JSXElementList = splitText(body)
@@ -121,6 +123,5 @@ const storyConverter = (story, outputname) => {
   }
   require('fs').writeFileSync(`./${outputname}.json`, JSON.stringify(finishedModule, null, 2))
 }
-
 
 module.exports = storyConverter

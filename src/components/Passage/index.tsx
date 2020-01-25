@@ -1,27 +1,33 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native'
-import IPassageProps, {IDispatchProps, IStateProps} from './passage.props'
-import {selectPassage} from '../../actions/story'
+import IPassageProps, { IDispatchProps, IStateProps } from './passage.props'
+import { selectPassage } from '../../actions/story'
 import { bindActionCreators, Dispatch, Action } from 'redux'
-import {connect} from 'react-redux'
-import {AppState} from '../../store'
-import {IJSXContent, IStoryState} from '../../IRedux'
+import { connect } from 'react-redux'
+import { AppState } from '../../store'
+import { IJSXContent, IStoryState } from '../../IRedux'
+import Phone from '../Phone'
 
 const Passage = (props: IPassageProps) => {
-  if(!props.selectedPassage) props.selectedPassage = 'Welcome!'
-  const handlePress = (passageName: string) => props.selectPassage(passageName)
+  if (!props.selectedPassage) props.selectedPassage = 'Welcome!'
+  const handlePress = (passageName: string | null) => props.selectPassage(passageName)
 
   const generateJSX = (passage: IJSXContent, i: number): JSX.Element => {
-    switch(passage.JSXType) {
+    switch (passage.JSXType) {
       case 'text':
         return <Text style={styles.passageText} key={i}>{passage.content}</Text>
+      case 'text:paragraphStart':
+        return <Text style={[styles.passageText, styles.paragraphStart]} key={i}>{passage.content}</Text>
+      case 'phone':
+        return <Phone name={passage.content.name} messages={passage.content.messages}/>
       case 'link':
-        return <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}><Text style={styles.link}>
+      case 'link:action':
+        return <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}><Text style={[styles.link, passage.JSXType === 'link:action' ? styles.actionLink : null]}>
           {passage.content}
-          </Text>
-          </TouchableWithoutFeedback>
+        </Text>
+        </TouchableWithoutFeedback>
       case 'image':
-        // return <Image source={passage.content}/>
+      // return <Image source={passage.content}/>
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
@@ -55,27 +61,33 @@ const styles = StyleSheet.create({
     borderColor: '#555',
     borderRadius: 10,
     margin: 5,
-    height:500,
-    padding:10,
-    flex:1
+    height: 500,
+    padding: 10,
+    flex: 1
   },
   link: {
     color: 'teal',
     fontWeight: 'bold',
     fontSize: 20
   },
+  actionLink: {
+    marginTop: 20
+  },
   passageText: {
     fontSize: 20,
     color: '#000'
+  },
+  paragraphStart: {
+    marginTop: 10
   }
 })
 
 const mapStateToProps = (state: AppState): IStateProps => ({
-  selectedPassage: state.story.selectedPassage, 
+  selectedPassage: state.story.selectedPassage,
   passages: state.story.passages
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>):IDispatchProps => bindActionCreators({selectPassage}, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({ selectPassage }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)
 

@@ -12,17 +12,22 @@ type message = {
   /**
    * The words being texted
    */
-  textContent?: string
+  text?: string
 }
 
 export interface IPhoneProps {
   /**
    * The name to appear at top of phone
    */
-  contactName: string
+  name: string
 
   /**
    * A list of messages to display
    */
   messages: message[]
+
+  /**
+   * The profile image of the recipient
+   */
+  image?: string
 }
