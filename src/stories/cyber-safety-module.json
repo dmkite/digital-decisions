@@ -37,17 +37,17 @@
           "linksTo": null
         },
         {
-          "jsxType": "image",
+          "JSXType": "image",
           "content": "instagram-logo",
           "linksTo": "instagram"
         },
         {
-          "jsxType": "image",
+          "JSXType": "image",
           "content": "netflix-logo",
           "linksTo": "netflix"
         },
         {
-          "jsxType": "image",
+          "JSXType": "image",
           "content": "snapchat-logo",
           "linksTo": "snap stories"
         }
