@@ -2,7 +2,7 @@ export interface IStoryState {
   /**
    * The name of the selected module e.g. CyberSafety
    */
-  selectedStory: string | null
+  selectedStory: string
 
   /**
    * The name of the selected passage e.g. Instructions

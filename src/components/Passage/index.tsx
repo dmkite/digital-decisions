@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { AppState } from '../../store'
 import { IJSXContent, IStoryState } from '../../IRedux'
 import Phone from '../Phone'
+import imageMapper from '../../utils/imageMapper'
 
 const Passage = (props: IPassageProps) => {
   if (!props.selectedPassage) props.selectedPassage = 'Welcome!'
@@ -26,8 +27,19 @@ const Passage = (props: IPassageProps) => {
           {passage.content}
         </Text>
         </TouchableWithoutFeedback>
+      case 'link:embedded':
+        console.log(passage)
+        return <Text key={i} style={styles.embeddedLink}>
+          {passage.content.map(generateJSX)}
+        </Text>
       case 'image':
-      // return <Image source={passage.content}/>
+        console.log(passage.content)
+        console.log(imageMapper[passage.content])
+        return passage.linksTo
+          ? <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}>
+            <Image style={{height: 50, width: 50}} source={imageMapper[passage.content]}/>
+          </TouchableWithoutFeedback>
+          : <Image style={{height: 50, width: 50}} source={imageMapper[passage.content]}/>
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
@@ -68,17 +80,25 @@ const styles = StyleSheet.create({
   link: {
     color: 'teal',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
+     alignSelf: 'flex-start',
+     borderWidth: 1
   },
   actionLink: {
     marginTop: 20
   },
   passageText: {
     fontSize: 20,
-    color: '#000'
+    color: '#000',
+    borderWidth:1,
+    alignSelf: 'flex-start'
   },
   paragraphStart: {
     marginTop: 10
+  },
+  embeddedLink: {
+    borderWidth: 1,
+    borderColor: 'red'
   }
 })
 

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 })
 
 interface IStateProps {
-  selectedStory: string | null
+  selectedStory: string
   passageHistory: string[]
   selectedPassage: string
 }

@@ -100,8 +100,8 @@ const storyConverter = (story, outputname) => {
     return mappedContent
   }
   
-  const formattedPassages = passages.map(p, i => {
-    if (i !== 0) return
+  const formattedPassages = passages.map(p => {
+    console.log(p)
     const {openTag, body} = splitPassage(p)
     const meta = getMetaData(openTag)
     const JSXElementList = splitText(body)
@@ -123,5 +123,8 @@ const storyConverter = (story, outputname) => {
   }
   require('fs').writeFileSync(`./${outputname}.json`, JSON.stringify(finishedModule, null, 2))
 }
+
+const story = require('./cyber-safety-module')
+storyConverter(story, 'cyber-safety-module')
 
 module.exports = storyConverter
