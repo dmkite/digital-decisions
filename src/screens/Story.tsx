@@ -7,18 +7,16 @@ import Passage from '../components/Passage'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {goToLastPassage, IAction} from '../actions/story'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, Dispatch, Action } from 'redux'
 
 const Story = (props: any) => {
   const { selectedStory: {
     gradientValues = ['#ff0000', '#00ff00'],
     title = 'default',
     moduleNumber = 0 } } = props
-  // <LinearGradient colors={gradientValues} style={styles.background} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
-  // </LinearGradient>
 
   const handleBackPress = (): null | IAction => {
-    return props.storyHistory.length
+    return props.passageHistory.length
       ? props.goToLastPassage()
       : null
   }
@@ -28,12 +26,11 @@ const Story = (props: any) => {
       <LinearGradient colors={gradientValues} style={styles.background} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         <ImageBackground source={require('../assets/module2-texture.png')} style={styles.imageTexture} >
           <View style={styles.backButton}>
-            <TouchableWithoutFeedback onPress={handleBackPress}>
-              <Icon name='undo' size={30} color={props.storyHistory.length ? '#555' : '#55555550'}/>
+            <TouchableWithoutFeedback style={{borderWidth: 1}}onPress={handleBackPress}>
+              <Icon name='undo' size={30} color={props.passageHistory.length ? '#555' : '#55555550'}/>
             </TouchableWithoutFeedback>
           </View>
-          <Passage
-            {...props.selectedStory.passages[props.selectedPassage]}/>
+          <Passage />
         </ImageBackground>
       </LinearGradient>
     </>
@@ -65,8 +62,18 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state: AppState) => ({ selectedStory: state.story.selectedStory, storyHistory: state.story.storyHistory, selectedPassage: state.story.selectedPassage })
+interface IStateProps {
+  selectedStory: string
+  passageHistory: string[]
+  selectedPassage: string
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({goToLastPassage}, dispatch)
+const mapStateToProps = (state: AppState): IStateProps => ({ selectedStory: state.story.selectedStory, passageHistory: state.story.passageHistory, selectedPassage: state.story.selectedPassage })
+
+interface IDispatchProps {
+  goToLastPassage: () => void
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({goToLastPassage}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Story)

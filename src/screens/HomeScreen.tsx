@@ -11,7 +11,7 @@ import TitleCard from '../components/TitleCard'
 import { ITitleCardProps } from '../components/TitleCard/TitleCard.props';
 import SelectionModal from '../components/SelectionModal/'
 import { NavigationStackProp } from 'react-navigation-stack';
-import * as modules from '../stories'
+import modules from '../stories'
 
 interface IState {
   selectedStory: null | ITitleCardProps
@@ -34,7 +34,7 @@ const reducer = (state: IState = initialState, action: IAction): IState => {
       return initialState
   }
 }
-
+console.log(modules)
 const stories: ITitleCardProps[] = Object.keys(modules).reduce((acc: ITitleCardProps[], modName: any): ITitleCardProps[] => {
   const {title, moduleNumber, gradientValues, description} = modules[modName]
   if (!title || !moduleNumber || !gradientValues || !gradientValues.length || !description) {
@@ -42,10 +42,6 @@ const stories: ITitleCardProps[] = Object.keys(modules).reduce((acc: ITitleCardP
   }
   return [...acc, {title, moduleNumber, gradientValues, description}]
 }, [])
-
-// const stories: ITitleCardProps[] = [
-//   {title: 'title', description: 'desc here', gradientValues: ['#fab', '#893'], moduleNumber:2}
-// ]
 
 export interface INavigationProps{ 
   navigation: NavigationStackProp<string>
