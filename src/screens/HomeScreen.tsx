@@ -1,10 +1,11 @@
-import React, {useReducer} from 'react'
+import React, { useReducer } from 'react'
 import {
   StyleSheet,
   View,
   Text,
   Image,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import TitleCard from '../components/TitleCard'
@@ -12,6 +13,7 @@ import { ITitleCardProps } from '../components/TitleCard/TitleCard.props';
 import SelectionModal from '../components/SelectionModal/'
 import { NavigationStackProp } from 'react-navigation-stack';
 import modules from '../stories'
+import Icon  from 'react-native-vector-icons/FontAwesome';
 
 interface IState {
   selectedStory: null | ITitleCardProps
@@ -27,23 +29,22 @@ const initialState: IState = { selectedStory: null };
 const reducer = (state: IState = initialState, action: IAction): IState => {
   switch (action.type) {
     case 'open':
-      return action.payload || {selectedStory: null}
+      return action.payload || { selectedStory: null }
     case 'close':
       return initialState
     default:
       return initialState
   }
 }
-console.log(modules)
 const stories: ITitleCardProps[] = Object.keys(modules).reduce((acc: ITitleCardProps[], modName: any): ITitleCardProps[] => {
-  const {title, moduleNumber, gradientValues, description} = modules[modName]
+  const { title, moduleNumber, gradientValues, description } = modules[modName]
   if (!title || !moduleNumber || !gradientValues || !gradientValues.length || !description) {
     return acc
   }
-  return [...acc, {title, moduleNumber, gradientValues, description}]
+  return [...acc, { title, moduleNumber, gradientValues, description }]
 }, [])
 
-export interface INavigationProps{ 
+export interface INavigationProps {
   navigation: NavigationStackProp<string>
 }
 
@@ -61,10 +62,16 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
         </View>
         <ScrollView contentContainerStyle={styles.main}>
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
+          <TouchableOpacity onPress={() => props.navigation.navigate('Form')}>
+            <LinearGradient colors={['#393633', '#999693']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
+             <Icon style={{lineHeight: 250, alignSelf: 'center'}} name="th-list" size={200} color="white"/>
+            </LinearGradient>
+            <Text style={styles.titleCardFont}>Form</Text>
+          </TouchableOpacity>
         </ScrollView>
       </LinearGradient>
-      {state.selectedStory && <SelectionModal description={state.selectedStory.description} title={state.selectedStory.title} dispatch={dispatch} navigation={props.navigation}/>
-        }
+      {state.selectedStory && <SelectionModal description={state.selectedStory.description} title={state.selectedStory.title} dispatch={dispatch} navigation={props.navigation} />
+      }
     </>
   );
 }
@@ -76,6 +83,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
+    marginBottom: 1
   },
   headerLogo: {
     height: 100,
@@ -93,9 +101,22 @@ const styles = StyleSheet.create({
   },
   main: {
     flexDirection: 'row',
-
     justifyContent: 'space-between',
-    paddingTop: 50
+    paddingTop: 50,
+    flexWrap: 'wrap'
+  },
+  titleCard: {
+    width: 250,
+    height: 250,
+    borderRadius: 5
+  },
+  titleCardFont: {
+    fontSize: 18
+  },
+  icon: {
+    height: 200,
+    width: 200,
+    margin: 25
   }
 });
 

@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import HomeScreen from './src/screens/HomeScreen'
 import Story from './src/screens/Story'
 import { Provider } from 'react-redux'
+import Form from './src/screens/Form'
 import React from 'react'
 import store from './src/store'
 
@@ -15,6 +16,12 @@ const MainNavigator = createStackNavigator({
   },
   Story: { 
     screen: Story,
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    }) 
+  },
+  Form: {
+    screen: Form,
     navigationOptions: ({ navigation }) => ({
       header: () => null
     }) 

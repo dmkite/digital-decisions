@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
   titleCard: {
     width: 250,
     height: 250,
-    borderRadius: 5
+    borderRadius: 5,
+    marginBottom:50
   },
   titleCardFont: {
     fontSize: 18
