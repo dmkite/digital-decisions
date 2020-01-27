@@ -41,11 +41,6 @@ const Passage = (props: IPassageProps) => {
           </TouchableWithoutFeedback>
           : <Image style={{height: 50, width: 50}} source={imageMapper[passage.content]}/>
       default:
-        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
-        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
-        console.log(passage)
-        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
-        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
   }
