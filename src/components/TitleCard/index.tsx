@@ -18,7 +18,7 @@ export default function TitleCard(props: ITitleCardProps): JSX.Element {
   }
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity style={styles.titleCardWrapper} onPress={handlePress}>
       <LinearGradient colors={props.gradientValues} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         {imageMapper[`module${props.moduleNumber}`]}
       </LinearGradient>
@@ -28,11 +28,13 @@ export default function TitleCard(props: ITitleCardProps): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  titleCardWrapper: {
+    marginBottom:50
+  },
   titleCard: {
     width: 250,
     height: 250,
     borderRadius: 5,
-    marginBottom:50
   },
   titleCardFont: {
     fontSize: 18
