@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Picker, Button, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 
 enum School {
@@ -35,7 +35,8 @@ interface IFormState extends IFormVals {
   }
   isSubmitting: false
   isSubmitted: boolean,
-  error: boolean
+  error: boolean,
+  altSchool: string
 }
 
 const initialState: IFormState = {
@@ -54,7 +55,8 @@ const initialState: IFormState = {
   age: null,
   race: '',
   impact: '',
-  error: false
+  error: false,
+  altSchool: ''
 }
 
 interface IFormAction {
@@ -66,18 +68,18 @@ interface IFormAction {
 }
 
 const reducer = (state: IFormState, action: IFormAction): IFormState => {
-  switch(action.type) {
+  switch (action.type) {
     case Action.SUBMIT:
-      return {...state, isSubmitted: true}
+      return { ...state, isSubmitted: true }
     case Action.ENTRY:
-      const {field, value} = action.payload ? action.payload : {field: 'error', value: true}
-      return {...state, [field]: value}
-    default: 
+      const { field, value } = action.payload ? action.payload : { field: 'error', value: true }
+      return { ...state, [field]: value }
+    default:
       return state
   }
 }
 
-enum Action{
+enum Action {
   SUBMIT = 'SUBMIT',
   ENTRY = 'ENTRY',
 }
@@ -98,30 +100,33 @@ const Form = () => {
       onSubmit={values => console.log(values)}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View>
+        <ScrollView style={styles.form}>
           {/* <Text style={styles.link} >Why do I have to fill out a form?</Text> */}
-          <Text style={styles.label}>What school do you go to?</Text>
-          <Picker
-            selectedValue={state.school || 'Select a school'}
-            style={styles.picker}
-            onValueChange={value => dispatch({type:Action.ENTRY, payload: {field: 'school', value }})}
-          >
-            <Picker.Item label = "Select a school" value="Select a school" />
-            <Picker.Item label="Mill Creek Middle" value={School.MillCreek} />
-            <Picker.Item label="Dexter High" value={School.DexterHigh} />
-            <Picker.Item label={School.NotListed} value={School.NotListed} />
-          </Picker>
-          {
-            state.school === School.NotListed
-              ?<Text>whoops</Text>
-              : null
-          }
-          <TouchableOpacity onPress={handleSubmit}>
-            <Text>
-              Submit
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.label}>What school do you go to?</Text>
+            <View style={styles.hiddenField}>
+              <Picker
+                selectedValue={state.school || 'Select a school'}
+                style={styles.picker}
+                onValueChange={value => dispatch({ type: Action.ENTRY, payload: { field: 'school', value } })}
+              >
+                <Picker.Item label="Select a school" value="Select a school" />
+                <Picker.Item label="Mill Creek Middle" value={School.MillCreek} />
+                <Picker.Item label="Dexter High" value={School.DexterHigh} />
+                <Picker.Item label={School.NotListed} value={School.NotListed} />
+              </Picker>
+              {
+                state.school === School.NotListed
+                  ? <TextInput style={styles.input} onChangeText={value => dispatch({type: Action.ENTRY, payload: {field: 'school', value}})} value={state.altSchool}/>
+                  : null
+              }
+
+            </View>
+
+          </View>
+          <Button style={styles.submit} onPress={handleSubmit} title="submit" />
+
+        </ScrollView>
 
       )}
 
@@ -130,16 +135,37 @@ const Form = () => {
 }
 
 const styles = StyleSheet.create({
+  section: {
+    borderWidth: 1,
+    marginBottom: 50
+  },
+  form: {
+    padding: 20,
+  },
   link: {
     color: 'teal'
   },
   label: {
-    borderWidth: 1
+    fontSize: 18,
+    flex: 1,
+    backgroundColor: 'green'
   },
   picker: {
     borderWidth: 1,
+    borderColor: 'black',
     width: 200,
-    backgroundColor: 'red'
+    height: 50,
+  },
+  input: {
+    borderBottomWidth: 1,
+    flex: 1,
+    padding:0
+  },
+  submit: {
+
+  },
+  hiddenField: {
+    flexDirection: 'row'
   }
 })
 
