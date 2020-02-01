@@ -8,18 +8,18 @@ import React from 'react'
 import store from './src/store'
 
 const MainNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: () => null
-    })
-  },
-  Story: { 
-    screen: Story,
-    navigationOptions: ({ navigation }) => ({
-      header: () => null
-    }) 
-  },
+  // Home: {
+  //   screen: HomeScreen,
+  //   navigationOptions: ({ navigation }) => ({
+  //     header: () => null
+  //   })
+  // },
+  // Story: { 
+  //   screen: Story,
+  //   navigationOptions: ({ navigation }) => ({
+  //     header: () => null
+  //   }) 
+  // },
   Form: {
     screen: Form,
     navigationOptions: ({ navigation }) => ({

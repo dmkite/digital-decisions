@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Picker, Button, ScrollView } from 'react-native'
 import { Formik } from 'formik'
+import BooleanForm from '../components/BooleanForm'
 
 enum School {
   MillCreek = "Mill Creek",
@@ -16,12 +17,28 @@ enum Race {
   NotListed = "NotListed"
 }
 
+enum Gender {
+  male = "Male",
+  female = "Female",
+  notListed = "Not Listed"
+}
+
 interface IFormVals {
-  school: School | ''
-  zipCode: number | null
-  age: number | null
-  race: Race | ''
-  impact: string
+  // impact: string
+  // trueOrFalse: {
+  //   onlinePredator: boolean | null
+  //   resources: boolean | null
+  // }
+  demographics: {
+    school: School | ''
+    zipCode: string
+    age: string
+    race: Race | ''
+    gender: Gender | '',
+    altSchool: string | null
+    altRace: string | null
+    altGender: string | null
+  }
 }
 
 interface IFormState extends IFormVals {
@@ -36,7 +53,6 @@ interface IFormState extends IFormVals {
   isSubmitting: false
   isSubmitted: boolean,
   error: boolean,
-  altSchool: string
 }
 
 const initialState: IFormState = {
@@ -48,15 +64,26 @@ const initialState: IFormState = {
     gender: false,
     race: false
   },
+  demographics: {
+    school: '',
+    zipCode: '',
+    age: '',
+    race: '',
+    gender: '',
+    altSchool: '',
+    altGender: '',
+    altRace: ''
+  },
   isSubmitting: false,
   isSubmitted: false,
-  school: '',
-  zipCode: null,
-  age: null,
-  race: '',
-  impact: '',
+  // impact: '',
   error: false,
-  altSchool: ''
+
+  // trueOrFalse: {
+  //   onlinePredator: null
+  // }
+
+
 }
 
 interface IFormAction {
@@ -84,25 +111,14 @@ enum Action {
   ENTRY = 'ENTRY',
 }
 
-const initialValues: IFormVals = {
-  school: '',
-  zipCode: null,
-  age: null,
-  race: '',
-  impact: ''
-}
-
 const Form = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={values => console.log(values)}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+<>
         <ScrollView style={styles.form}>
           {/* <Text style={styles.link} >Why do I have to fill out a form?</Text> */}
           <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Demographics</Text>
             <Text style={styles.label}>What school do you go to?</Text>
             <View style={styles.hiddenField}>
               <Picker
@@ -111,26 +127,30 @@ const Form = () => {
                 onValueChange={value => dispatch({ type: Action.ENTRY, payload: { field: 'school', value } })}
               >
                 <Picker.Item label="Select a school" value="Select a school" />
-                <Picker.Item label="Mill Creek Middle" value={School.MillCreek} />
-                <Picker.Item label="Dexter High" value={School.DexterHigh} />
-                <Picker.Item label={School.NotListed} value={School.NotListed} />
+                {Object.keys(School).map((key: string, i: number): JSX.Element => {
+                  return <Picker.Item key={i} label={School[key]} value={School[key]} />
+                })}
               </Picker>
               {
                 state.school === School.NotListed
-                  ? <TextInput style={styles.input} onChangeText={value => dispatch({type: Action.ENTRY, payload: {field: 'school', value}})} value={state.altSchool}/>
+                  ? <TextInput 
+                      style={styles.input} 
+                      onChangeText={value => dispatch({type: Action.ENTRY, payload: {field: 'school', value}})} 
+                      value={state.demographics.altSchool || 'Enter school'}/>
                   : null
               }
 
             </View>
 
+            {/* <View style={StyleSheet.section}>
+              <Text style={styles.sectionTitle}>True or False</Text>
+              <BooleanForm question={"I know what to do if I am approached by an online predator"} callback={value => dispatch({})}/>
+            </View> */}
           </View>
-          <Button style={styles.submit} onPress={handleSubmit} title="submit" />
-
+          <Button style={styles.submit}  title="submit" />
         </ScrollView>
 
-      )}
-
-    </Formik>
+    </>
   )
 }
 
@@ -159,13 +179,16 @@ const styles = StyleSheet.create({
   input: {
     borderBottomWidth: 1,
     flex: 1,
-    padding:0
+    backgroundColor: 'red'
   },
   submit: {
 
   },
   hiddenField: {
     flexDirection: 'row'
+  },
+  sectionTitle: {
+    fontSize:24
   }
 })
 
