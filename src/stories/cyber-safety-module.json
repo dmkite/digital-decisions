@@ -1218,7 +1218,7 @@
       "content": [
         {
           "JSXType": "image",
-          "content": "../assets/mod1/jess-bio.png",
+          "content": "jess-bio.png",
           "linksTo": null
         },
         {
@@ -1244,7 +1244,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -1671,7 +1671,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo",
           "linksTo": null
         }
       ]
@@ -2464,8 +2464,8 @@
       "name": "video test",
       "content": [
         {
-          "JSXType": "text",
-          "content": "<video width=\"800\" height=\"450\" controls><source src=\"https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/fight.mp4\" type=\"video/mp4\"></video>",
+          "JSXType": "video",
+          "content": "fight.mp4",
           "linksTo": null
         }
       ]
@@ -2615,7 +2615,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop.jpg",
+          "content": "photoshop.jpg",
           "linksTo": null
         },
         {
@@ -3229,7 +3229,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop2.jpeg",
+          "content": "photoshop2.jpg",
           "linksTo": null
         },
         {
@@ -3420,7 +3420,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop2.jpeg",
+          "content": "photoshop2.jpg",
           "linksTo": null
         },
         {
@@ -3663,7 +3663,7 @@
       "content": [
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/ok2say.png",
+          "content": "ok2say.png",
           "linksTo": null
         },
         {
@@ -4273,7 +4273,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -4315,7 +4315,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -4499,7 +4499,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -4688,7 +4688,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -4729,7 +4729,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop.jpg",
+          "content": "photoshop.jpg",
           "linksTo": null
         },
         {
@@ -4850,7 +4850,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop.jpg",
+          "content": "photoshop.jpg",
           "linksTo": null
         },
         {
@@ -4941,7 +4941,7 @@
       "content": [
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/200w_d.gif",
+          "content": "track-gif.gif",
           "linksTo": null
         }
       ]
@@ -5497,7 +5497,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -5539,7 +5539,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -5581,7 +5581,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -5639,7 +5639,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -5685,7 +5685,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/photoshop2.jpeg",
+          "content": "photoshop2.jpg",
           "linksTo": null
         },
         {
@@ -5797,7 +5797,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
@@ -5937,8 +5937,8 @@
       "name": "cool one",
       "content": [
         {
-          "JSXType": "text",
-          "content": "<video width=\"800\" height=\"450\" controls><source src=\"https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/art.mp4\" type=\"video/mp4\"></video>",
+          "JSXType": "video",
+          "content": "art.mp4",
           "linksTo": null
         }
       ]
@@ -6111,7 +6111,7 @@
         },
         {
           "JSXType": "image",
-          "content": "https://static1.squarespace.com/static/ta/58e26200e4fcb5ff91ca7b55/373/assets/mod1/wacc-logo.jpg",
+          "content": "wacc-logo.jpg",
           "linksTo": null
         }
       ]
