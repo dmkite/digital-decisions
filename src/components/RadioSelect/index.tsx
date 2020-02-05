@@ -10,7 +10,6 @@ interface IProps {
 const RadioSelect = (props: IProps): JSX.Element => {
   const [answer, setAnswer] = useState<boolean | string | null>(null)
   const handlePress = (val: boolean | string) => {
-    console.log('handlePress firing')
     setAnswer(val)
     props.callback(val)
   }
@@ -18,12 +17,13 @@ const RadioSelect = (props: IProps): JSX.Element => {
     <View style={styles.booleanForm}>
       {props.question ? <Text style={styles.question}>{props.question}</Text> : null}
       {props.answerValues.map((val: boolean | string, i: number): JSX.Element => (
-        <View style={styles.radioHolder}>
-          <TouchableWithoutFeedback onPress={() => handlePress(val)}>
+        <TouchableWithoutFeedback key={i} onPress={() => handlePress(val)}>
+          <View style={styles.radioHolder}>
             <View style={[styles.radio, answer === val ? styles.filled : null]}></View>
-          </TouchableWithoutFeedback>
-            <Text>{String(val)}</Text>
-        </View>
+            <Text style={styles.label}>{String(val)}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+
       ))}
     </View>
   )
@@ -33,21 +33,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     height: 20,
-    width: 20
+    width: 20,
+    marginRight: 5
   },
   radioHolder: {
     flexDirection: 'row',
+    marginBottom: 10
   },
   booleanForm: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
   },
   filled: {
-    backgroundColor: 'black'
+    backgroundColor: '#555'
   },
   question: {
     borderWidth: 1,
     flex: 0.9
+  },
+  label: {
+    marginRight: 10
   }
 })
 

@@ -9,17 +9,19 @@ enum School {
 }
 
 enum Race {
-  White = "White",
+  Asian = "Asian",
   Black = "Black",
+  Latinx = "Latinx",
+  MixedRace = "Mixed Race",
   NativeAmerican = "Native American",
-  MixedRace = "MixedRace",
-  NotListed = "NotListed"
+  White = "White",
+  NotListed = "Not Listed"
 }
 
 enum Gender {
   male = "Male",
   female = "Female",
-  notListed = "Not Listed"
+  NotListed = "Not Listed"
 }
 
 interface IFormVals {
@@ -34,9 +36,9 @@ interface IFormVals {
     age: string
     race: Race | ''
     gender: Gender | '',
-    altSchool: string | null
-    altRace: string | null
-    altGender: string | null
+    altSchool: string 
+    altRace: string 
+    altGender: string 
   }
 }
 
@@ -107,7 +109,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.ENTER_DEMO:
         return {...state, demographics: {...state.demographics, [field]: value}}
     case Action.REQUEST_INFO:
-      return {...state, isRequestingInfo: {...state.isRequestingInfo, [field]: !state.isRequestingInfo[field]}}
+      return {...state, isRequestingInfo: {...state.isRequestingInfo, [payload as string]: !state.isRequestingInfo[payload as string]}}
     default:
       return state
   }
@@ -125,7 +127,6 @@ const Form = () => {
   return (
     <>
       <ScrollView style={styles.form}>
-        {/* <Text style={styles.link} >Why do I have to fill out a form?</Text> */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Demographics</Text>
           <Text style={styles.label}>What school do you go to?</Text>
@@ -149,12 +150,12 @@ const Form = () => {
                 ? <TextInput
                   style={[styles.input, styles.hiddenInput]}
                   onChangeText={value => dispatch({ type: Action.ENTRY, payload: { field: 'school', value } })}
-                  value={state.demographics.altSchool || 'Enter school'} />
+                  value={state.demographics.altSchool} />
                 : null
             }
           </View>
 
-          <Text style={styles.label}>What is your gender?</Text>
+          <Text style={styles.label}>What's your gender?</Text>
           <View style={styles.hiddenField}>
             <View style={styles.radioWrapper}>
               <RadioSelect
@@ -165,18 +166,53 @@ const Form = () => {
 
             </View>
             {
-              state.demographics.gender === Gender.notListed
+              state.demographics.gender === Gender.NotListed
                 ? <TextInput
                   style={[styles.input, styles.hiddenInput]}
                   onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'gender', value } })}
-                  value={state.demographics.altSchool || 'Enter gender'} />
+                  value={state.demographics.altSchool} 
+                  />
                 : null
             }
           </View>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => dispatch({type: Action.REQUEST_INFO, payload: 'gender'})}>
             <Text style={styles.requestInfoLink}>Why do you need to know my gender?</Text>
           </TouchableOpacity>
+          {state.isRequestingInfo.gender
+            ? <TouchableOpacity onPress={() => dispatch({type: Action.REQUEST_INFO, payload: 'gender'})}>
+              <Text style={styles.infoText}>WACC is a nonprofit. We don't sell a product to make money. Instead we rely on grants to fund our free programs. Some grants ask questions about the people we work with. It may seem strange, but some grants request demographics for age, race, and gender. If we don't have that information, we can't apply for the grants. Thanks for helping us out!</Text>
+            </TouchableOpacity>
+            : null
+          }
 
+          <Text style={styles.label}>What's your race?</Text>
+          <View style={styles.hiddenField}>
+            <View style={[styles.radioWrapper, {flex:1, marginRight: 0}]}>
+              <RadioSelect
+                question=''
+                callback={ (value: string | boolean) => dispatch({type: Action.ENTER_DEMO, payload: {field: 'race', value}})}
+                answerValues={Object.keys(Race).map((key: string) => Race[key as keyof typeof Race])}
+                />
+
+            </View>
+          </View>
+            {
+              state.demographics.race === Race.NotListed
+                ? <TextInput
+                  style={[styles.input, styles.hiddenInput]}
+                  onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'race', value } })}
+                  value={state.demographics.altSchool} />
+                : null
+            }
+          <TouchableOpacity onPress={() => dispatch({type: Action.REQUEST_INFO, payload: 'race'})}>
+            <Text style={styles.requestInfoLink}>Why do you need to know my race?</Text>
+          </TouchableOpacity>
+          {state.isRequestingInfo.gender
+            ? <TouchableOpacity onPress={() => dispatch({type: Action.REQUEST_INFO, payload: 'race'})}>
+              <Text style={styles.infoText}>WACC is a nonprofit. We don't sell a product to make money. Instead we rely on grants to fund our free programs. Some grants ask questions about the people we work with. It may seem strange, but some grants request demographics for age, race, and gender. If we don't have that information, we can't apply for the grants. Thanks for helping us out!</Text>
+            </TouchableOpacity>
+            : null
+          }
           {/* <View style={StyleSheet.section}>
               <Text style={styles.sectionTitle}>True or False</Text>
               <BooleanForm question={"I know what to do if I am approached by an online predator"} callback={value => dispatch({})}/>
@@ -241,6 +277,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24
+  },
+  infoText: {
+    fontSize: 12,
+    lineHeight: 18
   }
 })
 
