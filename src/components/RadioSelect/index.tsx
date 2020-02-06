@@ -1,13 +1,8 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, StyleSheet } from 'react-native'
+import IRadioProps from './RadioProps'
 
-interface IProps {
-  question?: string
-  callback: (response: boolean | string) => void
-  answerValues: any[]
-}
-
-const RadioSelect = (props: IProps): JSX.Element => {
+const RadioSelect = (props: IRadioProps): JSX.Element => {
   const [answer, setAnswer] = useState<boolean | string | null>(null)
   const handlePress = (val: boolean | string) => {
     setAnswer(val)
@@ -49,8 +44,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#555'
   },
   question: {
-    borderWidth: 1,
-    flex: 0.9
+    flex: 0.9,
+    marginBottom: 20
   },
   label: {
     marginRight: 10

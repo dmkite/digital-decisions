@@ -9,7 +9,6 @@ const DemographicQuestions = (props: IDemoProps) => {
   const {dispatch, Action, isRequestingInfo, demographics} = props
   return (
     <View style={styles.section}>
-    <Text style={styles.sectionTitle}>Demographics</Text>
     <Text style={styles.label}>What school do you go to?</Text>
     <View style={styles.hiddenField}>
       <View style={styles.pickerWrapper}>
@@ -52,7 +51,7 @@ const DemographicQuestions = (props: IDemoProps) => {
             style={[styles.input, styles.hiddenInput]}
             placeholder="Enter gender"
             onChangeText={(value: string) => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'altGender', value } })}
-            value={demographics.altSchool} 
+            value={demographics.altGender} 
             />
           : null
       }
@@ -84,7 +83,7 @@ const DemographicQuestions = (props: IDemoProps) => {
             style={[styles.input, styles.hiddenInput]}
             onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'altRace', value } })}
             placeholder="Enter race"
-            value={demographics.altSchool} />
+            value={demographics.altRace} />
           : null
       }
     <TouchableOpacity onPress={() => dispatch({type: Action.REQUEST_INFO, payload: 'race'})}>
@@ -136,8 +135,7 @@ const styles = StyleSheet.create({
   input: {
     borderBottomWidth: 1,
     flex: 1,
-    backgroundColor: 'red',
-    height: 30,
+    paddingVertical: 0,
     lineHeight: 10
   },
   hiddenInput: {
@@ -148,7 +146,6 @@ const styles = StyleSheet.create({
   },
   radioWrapper: {
     flex: 0.5,
-    borderWidth: 1,
     marginRight: 20,
     paddingTop: 5
   },
@@ -157,9 +154,6 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 30
-  },
-  sectionTitle: {
-    fontSize: 24
   },
   pickerWrapper: {
     borderWidth: 1,
