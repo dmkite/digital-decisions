@@ -10,21 +10,25 @@ import {cronJob} from './src/utils/cronJob'
 
 import BackgroundTask from 'react-native-background-task'
 
-BackgroundTask.define()
+BackgroundTask.define(async (): Promise<void> => {
+  console.log('FIRING')
+  await cronJob()
+  BackgroundTask.finish()
+})
 
 const MainNavigator = createStackNavigator({
-  // Home: {
-  //   screen: HomeScreen,
-  //   navigationOptions: ({ navigation }) => ({
-  //     header: () => null
-  //   })
-  // },
-  // Story: { 
-  //   screen: Story,
-  //   navigationOptions: ({ navigation }) => ({
-  //     header: () => null
-  //   }) 
-  // },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    })
+  },
+  Story: { 
+    screen: Story,
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    }) 
+  },
   Form: {
     screen: Form,
     navigationOptions: ({ navigation }) => ({
@@ -36,6 +40,7 @@ const MainNavigator = createStackNavigator({
 const AppContainer = createAppContainer(MainNavigator)
 
 const App = () => {
+  useEffect(() => BackgroundTask.schedule({period: 3600}))
   return (
     <Provider store={store}>
       <AppContainer />
