@@ -20,7 +20,7 @@ const Passage = (props: IPassageProps) => {
       case 'text:paragraphStart':
         return <Text style={[styles.passageText, styles.paragraphStart]} key={i}>{passage.content}</Text>
       case 'phone':
-        return <Phone name={passage.content.name} messages={passage.content.messages}/>
+        return <Phone name={passage.content.name} messages={passage.content.messages} />
       case 'link':
       case 'link:action':
         return <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}><Text style={[styles.link, passage.JSXType === 'link:action' ? styles.actionLink : null]}>

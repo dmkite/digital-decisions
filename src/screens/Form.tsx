@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Picker, Button, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, AsyncStorage, ActivityIndicator } from 'react-native'
 import DemographicQuestions from '../components/DemographicQuestions'
 import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
 
 interface IFormVals {
   demographics: {
@@ -23,6 +23,12 @@ interface IFormVals {
     q3: boolean | null
     q4: boolean | null
     q5: boolean | null
+  },
+  shortAnswer: {
+    [key: string]: string
+    q1: string
+    q2: string
+    q3: string
   }
 }
 
@@ -36,10 +42,11 @@ interface IFormState extends IFormVals {
     gender: boolean
     race: boolean
   }
-  isSubmitting: false
-  isSubmitted: boolean,
+  isSubmitting: boolean
+  isSubmitted: boolean
   error: boolean,
   isCollapsed: {
+    [key: string]: boolean
     demographics: boolean
     trueFalse: boolean
     shortAnswer: boolean
@@ -67,7 +74,6 @@ const initialState: IFormState = {
   },
   isSubmitting: false,
   isSubmitted: false,
-  // impact: '',
   error: false,
 
   trueFalse: {
@@ -77,12 +83,17 @@ const initialState: IFormState = {
     q4: null,
     q5: null
   },
+
+  shortAnswer: {
+    q1: '',
+    q2: '',
+    q3: ''
+  },
   isCollapsed: {
     demographics: false,
     trueFalse: true,
     shortAnswer: true,
   }
-
 }
 
 interface IFormAction {
@@ -95,11 +106,15 @@ interface IFormAction {
 
 enum Action {
   SUBMIT = 'SUBMIT',
+  COMPLETE_SUBMIT = 'COMPLETE_SUBMIT',
   ENTRY = 'ENTRY',
   ENTER_DEMO = 'ENTER_DEMO',
   ENTER_T_F = 'ENTER_T_F',
+  ENTER_SHORT_ANSWER = 'ENTER_SHORT_ANSWER',
   SHOW_HIDE_SECTION = 'SHOW_HIDE_SECTION',
-  REQUEST_INFO = 'REQUEST_INFO'
+  REQUEST_INFO = 'REQUEST_INFO',
+  CLEAR = 'CLEAR',
+  SET_ERROR = 'SET_ERROR'
 }
 
 const sanitizeValues = (value: string): string => {
@@ -122,7 +137,9 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
   }
   switch (action.type) {
     case Action.SUBMIT:
-      return { ...state, isSubmitted: true }
+      return { ...state, isSubmitting: true, isSubmitted: false }
+    case Action.COMPLETE_SUBMIT: 
+      return { ...state, isSubmitting: false, isSubmitted: true }
     case Action.ENTRY:
       return { ...state, [field]: value }
     case Action.ENTER_DEMO:
@@ -131,16 +148,58 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
       return { ...state, isRequestingInfo: { ...state.isRequestingInfo, [payload as string]: !state.isRequestingInfo[payload as string] } }
     case Action.SHOW_HIDE_SECTION:
       return {...state, isCollapsed: {...state.isCollapsed, [field]: !state.isCollapsed[field] }}
+    case Action.CLEAR:
+      return initialState
+    case Action.SET_ERROR:
+      return {...state, error: !state.error}
     default:
       return state
   }
 }
 
+const hasEntries = (formResults: any): boolean => {
+  for (let key of Object.keys(formResults)) {
+    for(let subKey of Object.keys(formResults[key])) {
+      if(formResults[key][subKey] || formResults[key][subKey] === false) {
+        return true
+      }
+    }
+  }
+  return false
+}
 
 const Form = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const handleSubmit = async (): Promise<any> => {
+    dispatch({type: Action.SUBMIT})
+    const formResults = {
+      trueFalse: state.trueFalse,
+      demographics: state.demographics,
+      shorAnswer: state.shortAnswer
+    }
+    const shouldStore = hasEntries(formResults)
+    if(!shouldStore) 
+    try { 
+      let storedForms: string | null = await AsyncStorage.getItem('form-results')
+      const parsedResults: any[] = storedForms ? JSON.parse(storedForms) : []
+      parsedResults.push(formResults)
+      await AsyncStorage.setItem('form-results', JSON.stringify(parsedResults))
+      dispatch({type: Action.CLEAR})
+      dispatch({type: Action.COMPLETE_SUBMIT})
+    } catch (err) {
+      // do something with the err here.
+      dispatch({type: Action.SET_ERROR})
+      setTimeout(() => dispatch({type:Action.SET_ERROR}), 5000) 
+    }
+  }
+
   return (
     <>
+      {state.isSubmitting && <ActivityIndicator size="large" color="#0000ff" />}
+      {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
+      {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}
+
       <ScrollView style={styles.form}>
       <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({type: Action.SHOW_HIDE_SECTION, payload: {field:'demographics', value: ''}})}>
             <Text style={styles.sectionTitle}>Demographics</Text>
@@ -169,9 +228,18 @@ const Form = () => {
             Action={Action}
             dispatch={dispatch}
           />
-
         </View>
-        <Button onPress={() => { }} title="submit" />
+
+        <View style={state.isCollapsed.trueFalse ? { height: 0 } : {}}>
+          <ShortAnswerQuestions
+            shortAnswer={state.shortAnswer}
+            Action={Action}
+            dispatch={dispatch}
+          />
+        </View>
+
+
+        <Button onPress={handleSubmit} title="submit" />
       </ScrollView>
 
     </>
@@ -224,6 +292,25 @@ const styles = StyleSheet.create({
   },
   hiddenField: {
     flexDirection: 'row'
+  },
+  thankYou: {
+    borderBottomColor: '#30dd50',
+    backgroundColor: '#50ff70',
+    color: '#30dd50',
+  },
+  error: {
+    borderBottomColor: 'dd5030',
+    backgroundColor: 'ff7050',
+    color: 'dd5030'
+  },
+  banner: {
+    flex:1,
+    borderBottomWidth: 1,
+    position: 'absolute', 
+    top:0, 
+    left:0,
+    right:0,
+    padding:20
   }
 })
 

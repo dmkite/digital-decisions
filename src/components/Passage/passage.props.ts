@@ -1,7 +1,7 @@
-import {IPassageObject, IAction} from '../../IRedux'
+import {IPassageObject, IAction} from '../../Iredux/'
 
 export interface IDispatchProps {
-  selectPassage: (passageName: string) => IAction
+  selectPassage: (passageName: string | null) => IAction
 }
 
 export interface IStateProps {

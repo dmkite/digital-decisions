@@ -1,5 +1,4 @@
 import React from 'react'
-import { View, Text, ActionSheetIOS } from 'react-native'
 import RadioSelect from '../RadioSelect'
 import ITrueFalseProps, { TrueFalse } from './TrueFalseProps'
 
@@ -11,7 +10,7 @@ const TrueFalseQuestions = (props: ITrueFalseProps) => {
         return <RadioSelect
           key={i}
           question={TrueFalse[key as keyof typeof TrueFalse]}
-          callback={(value: boolean) => {
+          callback={(value: boolean | string) => {
             dispatch({ type: Action.ENTER_T_F, payload: { field: key, value: Boolean(value) } }
             )
           }}
