@@ -7,7 +7,7 @@ export default interface IRadioProps {
     /**
      * The callback once an input has changed
      */
-    callback: (response: boolean | string) => void
+    callback: (value: boolean | string) => void
 
     /**
      * The different labels for the radio buttons

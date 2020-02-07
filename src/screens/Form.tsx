@@ -4,7 +4,6 @@ import DemographicQuestions from '../components/DemographicQuestions'
 import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
-import { IStateProps } from '../components/Passage/passage.props'
 
 interface IFormVals {
   demographics: {
@@ -47,6 +46,7 @@ interface IFormState extends IFormVals {
   isSubmitted: boolean
   error: boolean,
   isCollapsed: {
+    [key: string]: boolean
     demographics: boolean
     trueFalse: boolean
     shortAnswer: boolean
@@ -151,7 +151,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.CLEAR:
       return initialState
     case Action.SET_ERROR:
-      return {...state, error: true}
+      return {...state, error: !state.error}
     default:
       return state
   }
@@ -189,14 +189,17 @@ const Form = () => {
       dispatch({type: Action.COMPLETE_SUBMIT})
     } catch (err) {
       // do something with the err here.
-      dispatch({type: Action.SET_ERROR}) 
+      dispatch({type: Action.SET_ERROR})
+      setTimeout(() => dispatch({type:Action.SET_ERROR}), 5000) 
     }
   }
 
   return (
     <>
       {state.isSubmitting && <ActivityIndicator size="large" color="#0000ff" />}
-      {state.isSubmitted && <Text>Thanks For completing our Form!</Text>}
+      {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
+      {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}
+
       <ScrollView style={styles.form}>
       <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({type: Action.SHOW_HIDE_SECTION, payload: {field:'demographics', value: ''}})}>
             <Text style={styles.sectionTitle}>Demographics</Text>
@@ -289,6 +292,25 @@ const styles = StyleSheet.create({
   },
   hiddenField: {
     flexDirection: 'row'
+  },
+  thankYou: {
+    borderBottomColor: '#30dd50',
+    backgroundColor: '#50ff70',
+    color: '#30dd50',
+  },
+  error: {
+    borderBottomColor: 'dd5030',
+    backgroundColor: 'ff7050',
+    color: 'dd5030'
+  },
+  banner: {
+    flex:1,
+    borderBottomWidth: 1,
+    position: 'absolute', 
+    top:0, 
+    left:0,
+    right:0,
+    padding:20
   }
 })
 
