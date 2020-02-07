@@ -4,8 +4,13 @@ import HomeScreen from './src/screens/HomeScreen'
 import Story from './src/screens/Story'
 import { Provider } from 'react-redux'
 import Form from './src/screens/Form'
-import React from 'react'
+import React, {useEffect} from 'react'
 import store from './src/store'
+import {cronJob} from './src/utils/cronJob'
+
+import BackgroundTask from 'react-native-background-task'
+
+BackgroundTask.define()
 
 const MainNavigator = createStackNavigator({
   // Home: {
