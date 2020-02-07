@@ -23,6 +23,12 @@ interface IFormVals {
     q3: boolean | null
     q4: boolean | null
     q5: boolean | null
+  },
+  shortAnswer: {
+    [key: string]: string
+    q1: string
+    q2: string
+    q3: string
   }
 }
 
@@ -77,6 +83,12 @@ const initialState: IFormState = {
     q4: null,
     q5: null
   },
+
+  shortAnswer: {
+    q1: '',
+    q2: '',
+    q3: ''
+  },
   isCollapsed: {
     demographics: false,
     trueFalse: true,
@@ -98,6 +110,7 @@ enum Action {
   ENTRY = 'ENTRY',
   ENTER_DEMO = 'ENTER_DEMO',
   ENTER_T_F = 'ENTER_T_F',
+  ENTER_SHORT_ANSWER = 'ENTER_SHORT_ANSWER',
   SHOW_HIDE_SECTION = 'SHOW_HIDE_SECTION',
   REQUEST_INFO = 'REQUEST_INFO'
 }

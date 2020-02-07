@@ -13,9 +13,26 @@ export enum ShortAnswerQuestion {
 }
 
 
+
 export default interface IShortAnswerProps {
    /**
      * The dispatch method from useReducer
      */
     dispatch: (action:IAction) => void
+
+    /**
+     * The action type enums for useReducer
+     */
+    Action: {
+      [key:string]: string
+    }
+
+    /**
+     * The short answer portion of state
+     */
+    shortAnswer: {
+      q1: string
+      q2: string
+      q3: string
+    }
 }
