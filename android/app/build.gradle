@@ -179,6 +179,8 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_netinfo')
+    implementation project(':react-native-background-task')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-linear-gradient')
     implementation fileTree(dir: "libs", include: ["*.jar"])

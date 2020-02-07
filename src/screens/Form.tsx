@@ -5,7 +5,7 @@ import { School, Race, Gender } from '../components/DemographicQuestions/DemoPro
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
 
-interface IFormVals {
+export interface IFormVals {
   demographics: {
     school: School | ''
     zipCode: string
