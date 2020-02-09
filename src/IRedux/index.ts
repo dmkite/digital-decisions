@@ -2,7 +2,12 @@ export interface IStoryState {
   /**
    * The name of the selected module e.g. CyberSafety
    */
-  selectedStory: string
+  selectedStory: {
+    title: string,
+    gradientValues: string[],
+    description: string,
+    moduleNumber: string
+  } | null
 
   /**
    * The name of the selected passage e.g. Instructions
@@ -45,6 +50,7 @@ export interface IJSXContent {
 }
 
 export interface IPhoneContent {
+  [key: string]: string | ITextContent[] | undefined
   name: string
   image?: string
   messages: ITextContent[]

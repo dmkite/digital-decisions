@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { AppState } from '../store'
 import LinearGradient from 'react-native-linear-gradient'
 import Passage from '../components/Passage'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {goToLastPassage, IAction} from '../actions/story'
+import { goToLastPassage, IAction } from '../actions/story'
 import { bindActionCreators, Dispatch, Action } from 'redux'
 
 const Story = (props: any) => {
-  const { selectedStory: {
-    gradientValues = ['#ff0000', '#00ff00'],
-    title = 'default',
-    moduleNumber = 0 } } = props
+  const { selectedStory: { gradientValues = ['#ff0000', '#00ff00'] } } = props
 
   const handleBackPress = (): null | IAction => {
+    console.log('firing')
     return props.passageHistory.length
       ? props.goToLastPassage()
       : null
@@ -25,12 +22,17 @@ const Story = (props: any) => {
     <>
       <LinearGradient colors={gradientValues} style={styles.background} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         <ImageBackground source={require('../assets/module2-texture.png')} style={styles.imageTexture} >
-          <View style={styles.backButton}>
-            <TouchableWithoutFeedback style={{borderWidth: 1}}onPress={handleBackPress}>
-              <Icon name='undo' size={30} color={props.passageHistory.length ? '#555' : '#55555550'}/>
-            </TouchableWithoutFeedback>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+              <View style={{ borderWidth: 1 }}>
+                <Icon name='undo' size={30} color={props.passageHistory.length ? '#555' : '#55555550'} />
+              </View>
+            </TouchableOpacity>
+            
+            <View style={styles.passageHolder}>
+              <Passage />
+            </View>
           </View>
-          <Passage />
         </ImageBackground>
       </LinearGradient>
     </>
@@ -43,22 +45,28 @@ const styles = StyleSheet.create({
   },
   imageTexture: {
     height: '100%',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1
   },
   backButton: {
-    width: 50,
+    width: "10%",
     height: 100,
     borderRadius: 10,
     borderWidth: 3,
     borderColor: '#555',
     backgroundColor: '#ffffff50',
-    margin:20,
-    justifyContent:'center',
-    alignItems: 'center'
+    marginTop: 20,
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  passageBody: {
+  passageHolder: {
+    width: '85%',
+  },
+  row: {
+    flexDirection: 'row',
     flex: 1,
-    flexDirection: 'row'
+    justifyContent: 'space-around'
   }
 })
 
@@ -74,6 +82,6 @@ interface IDispatchProps {
   goToLastPassage: () => void
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({goToLastPassage}, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({ goToLastPassage }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Story)

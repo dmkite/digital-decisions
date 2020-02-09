@@ -3,10 +3,10 @@ interface IImage {
 }
 
 const imageMapper: IImage = {
-  'instagram-logo': require('../assets/instagram-logo.png'),
-  'netflix-logo': require('../assets/netflix-logo.png'),
-  'snapchat-logo': require('../assets/snapchat-logo.png'),
-  mod2: {
+  'instagram-logo.png': require('../assets/instagram-logo.png'),
+  'netflix-logo.png': require('../assets/netflix-logo.png'),
+  'snapchat-logo.png': require('../assets/snapchat-logo.png'),
+  mod1: {
     'jess-bio.png': require('../assets/jess-bio.png'),
     'ok2say.png': require('../assets/ok2say.png'),
     'photoshop.jpg': require('../assets/photoshop.jpg'),

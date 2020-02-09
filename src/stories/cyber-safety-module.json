@@ -38,17 +38,17 @@
         },
         {
           "JSXType": "image",
-          "content": "instagram-logo",
+          "content": "instagram-logo.png",
           "linksTo": "instagram"
         },
         {
           "JSXType": "image",
-          "content": "netflix-logo",
+          "content": "netflix-logo.png",
           "linksTo": "netflix"
         },
         {
           "JSXType": "image",
-          "content": "snapchat-logo",
+          "content": "snapchat-logo.png",
           "linksTo": "snap stories"
         }
       ]
@@ -79,38 +79,32 @@
           "linksTo": null
         },
         {
-          "JSXType": "text",
+          "JSXType": "text:paragraphStart",
           "content": "A couple people liked it, but this girl Maddie commented \"Wow...so bad... #needsdrawinglessons\"",
           "linksTo": null
         },
         {
           "JSXType": "text",
-          "content": "Really? Who does that? ",
+          "content": "Really? Who does that?",
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "How should Jess respond?",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "Ignore it",
-              "linksTo": "Ignore it"
-            },
-            {
-              "JSXType": "link",
-              "content": "Respond to Maddie",
-              "linksTo": "Respond to Maddie"
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "How should Jess respond?",
           "linksTo": null
         },
         {
-          "JSXType": "link",
+          "JSXType": "link:action",
+          "content": "Ignore it",
+          "linksTo": "Ignore it"
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Respond to Maddie",
+          "linksTo": "Respond to Maddie"
+        },
+        {
+          "JSXType": "link:action",
           "content": "Make a comment",
           "linksTo": "Make a comment"
         }
@@ -142,27 +136,22 @@
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "what should she do?",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "Respond",
-              "linksTo": "Respond"
-            },
-            {
-              "JSXType": "link",
-              "content": "Ignore him",
-              "linksTo": "Ignore him"
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "what should she do?",
           "linksTo": null
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Respond",
+          "linksTo": "Respond"
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Ignore him",
+          "linksTo": "Ignore him"
         }
-      ]
+      ],
+      "linksTo": null
     },
     "snap stories": {
       "pid": "4",
@@ -190,30 +179,24 @@
           "linksTo": null
         },
         {
-          "JSXType": "text",
+          "JSXType": "text:paragraphStart",
           "content": "It's really annoying because Jess asked Olivia if she could hangout this afternoon and she said she had to do homework today.",
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "What should Jess do?",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "Creep",
-              "linksTo": "Creep"
-            },
-            {
-              "JSXType": "link",
-              "content": "Text another friend",
-              "linksTo": "Text another friend"
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "What should Jess do?",
           "linksTo": null
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Creep",
+          "linksTo": "Creep"
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Text another friend",
+          "linksTo": "Text another friend"
         }
       ]
     },
@@ -264,46 +247,24 @@
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "Figure out how to get ",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "more followers",
-              "linksTo": "more followers"
-            },
-            {
-              "JSXType": "text",
-              "content": "What should Jess do?",
-              "linksTo": null
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "She also notices that this girl has like a thousand followers. Jess has never been worried about followers, but something about seeing so many makes her jealous.",
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "Figure out how to get ",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "more followers",
-              "linksTo": "more followers"
-            },
-            {
-              "JSXType": "link",
-              "content": "keep creeping",
-              "linksTo": "keep creeping"
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "What should Jess do?",
           "linksTo": null
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Figure out how to get more followers",
+          "linksTo": "more followers"
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Keep creeping",
+          "linksTo": "keep creeping"
         }
       ]
     },
@@ -2233,32 +2194,26 @@
         },
         {
           "JSXType": "text",
-          "content": "Really? Who does that? ",
+          "content": "Really? Who does that?",
           "linksTo": null
         },
         {
-          "JSXType": "link:embedded",
-          "content": [
-            {
-              "JSXType": "text",
-              "content": "How should Jess respond?",
-              "linksTo": null
-            },
-            {
-              "JSXType": "link",
-              "content": "Ignore it",
-              "linksTo": "Ignore it"
-            },
-            {
-              "JSXType": "link",
-              "content": "Respond to Maddie",
-              "linksTo": "Respond to Maddie"
-            }
-          ],
+          "JSXType": "text:paragraphStart",
+          "content": "How should Jess respond?",
           "linksTo": null
         },
         {
-          "JSXType": "link",
+          "JSXType": "link:action",
+          "content": "Ignore it",
+          "linksTo": "Ignore it"
+        },
+        {
+          "JSXType": "link:action",
+          "content": "Respond to Maddie",
+          "linksTo": "Respond to Maddie"
+        },
+        {
+          "JSXType": "link:action",
           "content": "Make a comment",
           "linksTo": "Make a comment"
         }
