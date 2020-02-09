@@ -138,8 +138,17 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
   switch (action.type) {
     case Action.SUBMIT:
       return { ...state, isSubmitting: true, isSubmitted: false }
-    case Action.COMPLETE_SUBMIT: 
-      return { ...state, isSubmitting: false, isSubmitted: true }
+    case Action.COMPLETE_SUBMIT:
+      return {
+        ...state,
+        isSubmitting: false,
+        isSubmitted: true,
+        isCollapsed: {
+          demographics: true,
+          trueFalse: true,
+          shortAnswer: true,
+        }
+      }
     case Action.ENTRY:
       return { ...state, [field]: value }
     case Action.ENTER_DEMO:
@@ -147,11 +156,11 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.REQUEST_INFO:
       return { ...state, isRequestingInfo: { ...state.isRequestingInfo, [payload as string]: !state.isRequestingInfo[payload as string] } }
     case Action.SHOW_HIDE_SECTION:
-      return {...state, isCollapsed: {...state.isCollapsed, [field]: !state.isCollapsed[field] }}
+      return { ...state, isCollapsed: { ...state.isCollapsed, [field]: !state.isCollapsed[field] } }
     case Action.CLEAR:
       return initialState
     case Action.SET_ERROR:
-      return {...state, error: !state.error}
+      return { ...state, error: !state.error }
     default:
       return state
   }
@@ -159,8 +168,8 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
 
 const hasEntries = (formResults: any): boolean => {
   for (let key of Object.keys(formResults)) {
-    for(let subKey of Object.keys(formResults[key])) {
-      if(formResults[key][subKey] || formResults[key][subKey] === false) {
+    for (let subKey of Object.keys(formResults[key])) {
+      if (formResults[key][subKey] || formResults[key][subKey] === false) {
         return true
       }
     }
@@ -168,76 +177,90 @@ const hasEntries = (formResults: any): boolean => {
   return false
 }
 
-const Form = () => {
+const Form = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleSubmit = async (): Promise<any> => {
-    dispatch({type: Action.SUBMIT})
+    dispatch({ type: Action.SUBMIT })
     const formResults = {
       trueFalse: state.trueFalse,
       demographics: state.demographics,
       shorAnswer: state.shortAnswer
     }
     const shouldStore = hasEntries(formResults)
-    if(!shouldStore) 
-    try { 
+    if (!shouldStore) return dispatch({ type: Action.COMPLETE_SUBMIT })
+    try {
       let storedForms: string | null = await AsyncStorage.getItem('form-results')
       const parsedResults: any[] = storedForms ? JSON.parse(storedForms) : []
       parsedResults.push(formResults)
       await AsyncStorage.setItem('form-results', JSON.stringify(parsedResults))
-      dispatch({type: Action.CLEAR})
-      dispatch({type: Action.COMPLETE_SUBMIT})
+      dispatch({ type: Action.CLEAR })
+      setTimeout(() => props.navigation.navigate('Home'), 2500)
     } catch (err) {
       // do something with the err here.
-      dispatch({type: Action.SET_ERROR})
-      setTimeout(() => dispatch({type:Action.SET_ERROR}), 5000) 
+      dispatch({ type: Action.SET_ERROR })
+      setTimeout(() => dispatch({ type: Action.SET_ERROR }), 5000)
+    } finally {
+      dispatch({ type: Action.COMPLETE_SUBMIT })
     }
   }
 
   return (
     <>
-      {state.isSubmitting && <ActivityIndicator size="large" color="#0000ff" />}
+      {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
       {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
       {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}
 
       <ScrollView style={styles.form}>
-      <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({type: Action.SHOW_HIDE_SECTION, payload: {field:'demographics', value: ''}})}>
-            <Text style={styles.sectionTitle}>Demographics</Text>
-            <Text style={styles.sectionTitleExpand}>{state.isCollapsed.demographics ? '+' : '-'}</Text>
-          </TouchableOpacity>
-          
-        <View style={state.isCollapsed.demographics ? { height: 0 } : {}}>
-          <DemographicQuestions
+        <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'demographics', value: '' } })}>
+          <Text style={styles.sectionTitle}>Demographics</Text>
+          <Text style={styles.sectionTitleExpand}>{state.isCollapsed.demographics ? '+' : '-'}</Text>
+        </TouchableOpacity>
+
+
+        {state.isCollapsed.demographics
+          ? null
+          : <DemographicQuestions
             isRequestingInfo={state.isRequestingInfo}
             demographics={state.demographics}
             Action={Action}
             dispatch={dispatch}
           />
+        }
 
-        </View>
+        <View style={styles.underline} />
 
+        <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'trueFalse', value: '' } })}>
+          <Text style={styles.sectionTitle}>True or False</Text>
+          <Text style={styles.sectionTitleExpand}>{state.isCollapsed.trueFalse ? '+' : '-'}</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({type: Action.SHOW_HIDE_SECTION, payload: {field:'trueFalse', value: ''}})}>
-            <Text style={styles.sectionTitle}>True or False</Text>
-            <Text style={styles.sectionTitleExpand}>{state.isCollapsed.trueFalse ? '+' : '-'}</Text>
-          </TouchableOpacity>
-
-        <View style={state.isCollapsed.trueFalse ? { height: 0 } : {}}>
-          <TrueFalseQuestions
+        {state.isCollapsed.trueFalse
+          ? null
+          : <TrueFalseQuestions
             trueFalse={state.trueFalse}
             Action={Action}
             dispatch={dispatch}
           />
-        </View>
 
-        <View style={state.isCollapsed.trueFalse ? { height: 0 } : {}}>
-          <ShortAnswerQuestions
+        }
+
+        <View style={styles.underline} />
+
+        <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'shortAnswer', value: '' } })}>
+          <Text style={styles.sectionTitle}>Short Answer</Text>
+          <Text style={styles.sectionTitleExpand}>{state.isCollapsed.shortAnswer ? '+' : '-'}</Text>
+        </TouchableOpacity>
+
+        {state.isCollapsed.shortAnswer
+          ? null
+          : <ShortAnswerQuestions
             shortAnswer={state.shortAnswer}
             Action={Action}
             dispatch={dispatch}
-          />
-        </View>
+          />}
 
+        <View style={styles.underline} />
 
         <Button onPress={handleSubmit} title="submit" />
       </ScrollView>
@@ -250,7 +273,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     flex: 0.9,
     fontSize: 24,
-    marginBottom: 20
   },
   sectionTitleExpand: {
     flex: 0.1,
@@ -294,23 +316,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   thankYou: {
-    borderBottomColor: '#30dd50',
-    backgroundColor: '#50ff70',
-    color: '#30dd50',
+    borderBottomColor: '#192201',
+    backgroundColor: '#DDF2AE',
+    color: '#192201'
   },
   error: {
-    borderBottomColor: 'dd5030',
-    backgroundColor: 'ff7050',
-    color: 'dd5030'
+    borderBottomColor: '#73020C',
+    backgroundColor: '#F27272',
+    color: '#73020C',
   },
   banner: {
-    flex:1,
-    borderBottomWidth: 1,
-    position: 'absolute', 
-    top:0, 
-    left:0,
-    right:0,
-    padding:20
+    flex: 1,
+    borderBottomWidth: 3,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    padding: 20,
+    fontSize: 18,
+    zIndex: 10
+  },
+  screen: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#00000050',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingTop: '50%'
+  },
+  underline: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 50,
+    borderBottomWidth: 2,
+    borderBottomColor: "#333"
   }
 })
 

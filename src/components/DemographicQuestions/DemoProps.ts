@@ -2,7 +2,7 @@
 export enum School {
     MillCreek = "Mill Creek",
     DexterHigh = "Dexter High",
-    NotListed = "Not Listed"
+    NotListed = "Not listed"
 }
 
 export enum Race {
@@ -12,13 +12,15 @@ export enum Race {
     MixedRace = "Mixed Race",
     NativeAmerican = "Native American",
     White = "White",
-    NotListed = "Not Listed"
+    NotListed = "Not listed",
+    preferNot = "Prefer not to say"
 }
 
 export enum Gender {
     male = "Male",
     female = "Female",
-    NotListed = "Not Listed"
+    NotListed = "Not listed",
+    preferNot = "Prefer not to say"
 }
 
 interface IAction {
