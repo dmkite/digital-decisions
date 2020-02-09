@@ -12,6 +12,7 @@ const ShortAnswerQuestions = (props: IShortAnswerProps): JSX.Element => {
           <View key={i}>
             <Text style={styles.label}>{ShortAnswerQuestion[key as keyof typeof ShortAnswerQuestion]}</Text>
             <TextInput 
+              style={styles.textArea}
               multiline={true} 
               numberOfLines={4}
               maxLength={150}
@@ -26,7 +27,14 @@ const ShortAnswerQuestions = (props: IShortAnswerProps): JSX.Element => {
 }
 
 const styles = StyleSheet.create({
-  label: {}
+  label: {
+    marginTop:20,
+    marginBottom: 10
+  },
+  textArea: {
+    borderLeftWidth:1,
+    borderLeftColor: '#999'
+  }
 })
 
 export default ShortAnswerQuestions
