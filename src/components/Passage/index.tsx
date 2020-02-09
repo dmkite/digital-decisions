@@ -28,13 +28,10 @@ const Passage = (props: IPassageProps) => {
         </Text>
         </TouchableWithoutFeedback>
       case 'link:embedded':
-        console.log(passage)
         return <Text key={i} style={styles.embeddedLink}>
           {passage.content.map(generateJSX)}
         </Text>
       case 'image':
-        console.log(passage.content)
-        console.log(imageMapper[passage.content])
         return passage.linksTo
           ? <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}>
             <Image style={{height: 50, width: 50}} source={imageMapper[passage.content]}/>
@@ -61,11 +58,11 @@ const styles = StyleSheet.create({
   },
   outerBorder: {
     borderWidth: 3,
-    borderColor: '#555',
+    borderColor: '#fff555',
     borderRadius: 10,
     marginTop: 20,
     marginRight: 110,
-    flexGrow: 1,
+    // flexGrow: 1,
     backgroundColor: '#ffffff50'
   },
   passageContent: {
@@ -73,16 +70,15 @@ const styles = StyleSheet.create({
     borderColor: '#555',
     borderRadius: 10,
     margin: 5,
-    height: 500,
+    // height: 500,
     padding: 10,
-    flex: 1
+    // flex: 1
   },
   link: {
     color: 'teal',
     fontWeight: 'bold',
     fontSize: 20,
      alignSelf: 'flex-start',
-     borderWidth: 1
   },
   actionLink: {
     marginTop: 20
@@ -90,14 +86,12 @@ const styles = StyleSheet.create({
   passageText: {
     fontSize: 20,
     color: '#000',
-    borderWidth:1,
     alignSelf: 'flex-start'
   },
   paragraphStart: {
     marginTop: 10
   },
   embeddedLink: {
-    borderWidth: 1,
     borderColor: 'red'
   }
 })
