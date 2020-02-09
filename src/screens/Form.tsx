@@ -195,7 +195,7 @@ const Form = (props) => {
       parsedResults.push(formResults)
       await AsyncStorage.setItem('form-results', JSON.stringify(parsedResults))
       dispatch({ type: Action.CLEAR })
-      setTimeout(props.navigation.navigate('Home'))
+      setTimeout(() => props.navigation.navigate('Home'), 2500)
     } catch (err) {
       // do something with the err here.
       dispatch({ type: Action.SET_ERROR })
