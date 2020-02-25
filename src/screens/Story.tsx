@@ -12,7 +12,6 @@ const Story = (props: any) => {
   const { selectedStory: { gradientValues = ['#ff0000', '#00ff00'] } } = props
 
   const handleBackPress = (): null | IAction => {
-    console.log('firing')
     return props.passageHistory.length
       ? props.goToLastPassage()
       : null

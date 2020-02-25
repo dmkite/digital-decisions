@@ -34,14 +34,18 @@ const Passage = (props: IPassageProps) => {
           {passage.content.map(generateJSX)}
         </Text>
       case 'image':
+        let image = imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]
+        if (!image) image = imageMapper.general[passage.content as keyof typeof imageMapper]
+        console.log(passage.content)
+        console.log(image)
         return passage.linksTo
           ? <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
-            <Image style={styles.choiceIcon} source={imageMapper[passage.content as keyof typeof imageMapper]}/>
+            <Image style={[styles.choiceIcon, {height: image.height, width:image.width}]} source={image.source}/>
           </TouchableOpacity>
           : <Image 
               key={i} 
-              style={passage.content.includes('bio') ? styles.profileImage : styles.genericImage}
-              source={imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]}
+              style={[(passage.content.includes('bio') ? styles.profileImage : styles.genericImage),{height:image.height, width:image.width}]}
+              source={image.source}
             />
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
@@ -99,7 +103,8 @@ const styles = StyleSheet.create({
     width:400,
     height:400,
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
+    borderWidth:1
   },
   genericImage: {
     height:600, width:200, alignSelf:'center'
