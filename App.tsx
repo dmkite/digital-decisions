@@ -7,7 +7,6 @@ import Form from './src/screens/Form'
 import React, {useEffect} from 'react'
 import store from './src/store'
 import {cronjob} from './src/utils/cronJob'
-
 import BackgroundTask from 'react-native-background-task'
 
 BackgroundTask.define(async (): Promise<void> => {
