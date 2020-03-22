@@ -46,38 +46,38 @@ const imageMapper: IImage = {
     },
     'img1.png': {
       source: require('../assets/img1.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img2.png': {
       source: require('../assets/img2.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img3.png': {
       source: require('../assets/img3.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img4.png': {
       source: require('../assets/img4.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img5.png': {
       source: require('../assets/img5.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img6.png': {
       source: require('../assets/img6.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     },
     'img7.png': {
       source: require('../assets/img7.png'),
-      height: 300,
-      width: 150
+      height: 525,
+      width: 300
     }
   },
   general: {

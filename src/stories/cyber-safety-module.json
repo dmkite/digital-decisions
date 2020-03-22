@@ -38,23 +38,18 @@
           "content": "Now that she's done with school for the day she wants to do something to relax. She could check her Instagram feed, watch Stranger Things, or see if there are any new Snap Stories."
         },
         {
-          "JSXType": "text:paragraphStart",
-          "linksTo": null,
-          "content": "<div id=\"flexbox\">"
-        },
-        {
           "JSXType": "image",
-          "linksTo": null,
+          "linksTo": "instagram",
           "content": "instagram-logo.png"
         },
         {
           "JSXType": "image",
-          "linksTo": null,
+          "linksTo": "netflix",
           "content": "netflix-logo.png"
         },
         {
           "JSXType": "image",
-          "linksTo": null,
+          "linksTo": "snap stories",
           "content": "snapchat-logo.png"
         }
       ]
@@ -112,7 +107,7 @@
         {
           "JSXType": "link:action",
           "linksTo": "Make a comment",
-          "content": "[[Make a comment]] on Maddie's posts"
+          "content": "Make a comment on Maddie's posts"
         }
       ]
     },
@@ -196,12 +191,12 @@
         {
           "JSXType": "link:action",
           "linksTo": "Creep",
-          "content": "[[Creep]] on Olivia's Instagram to see who her new friend is"
+          "content": "Creep on Olivia's Instagram to see who her new friend is"
         },
         {
           "JSXType": "link:action",
           "linksTo": "Text another friend",
-          "content": "[[Text another friend]] to see if they can hangout"
+          "content": "Text another friend to see if they can hangout"
         }
       ]
     },
@@ -210,7 +205,7 @@
       "name": "selfie",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img4.png"
         },
@@ -321,12 +316,12 @@
         {
           "JSXType": "link:action",
           "linksTo": "Approve",
-          "content": "[[Approve]] the request"
+          "content": "Approve the request"
         },
         {
           "JSXType": "link:action",
           "linksTo": "Deny",
-          "content": "[[Deny]] the request"
+          "content": "Deny the request"
         }
       ]
     },
@@ -703,12 +698,12 @@
         {
           "JSXType": "link:action",
           "linksTo": "Comfort",
-          "content": "[[Comfort]] Indira"
+          "content": "Comfort Indira"
         },
         {
           "JSXType": "link:action",
           "linksTo": "Confront",
-          "content": "[[Confront]] Maddie"
+          "content": "Confront Maddie"
         }
       ]
     },
@@ -914,7 +909,7 @@
         {
           "JSXType": "link:action",
           "linksTo": "Make a comment",
-          "content": "[[Make a comment]] to shut Maddie up"
+          "content": "Make a comment to shut Maddie up"
         }
       ]
     },
@@ -923,9 +918,9 @@
       "name": "This one",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
-          "content": "img3\" title=\"Photo of teenager eating by Paul Schultz.png"
+          "content": "img3.png"
         },
         {
           "JSXType": "text:paragraphStart",
@@ -1119,7 +1114,7 @@
       "name": "picture",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img1.png"
         },
@@ -1622,7 +1617,7 @@
         {
           "JSXType": "link:action",
           "linksTo": "Make a comment",
-          "content": "[[Make a comment]] on Maddie's posts"
+          "content": "Make a comment on Maddie's posts"
         }
       ]
     },
@@ -1739,7 +1734,7 @@
         {
           "JSXType": "link:action",
           "linksTo": "Make a comment",
-          "content": "[[Make a comment]] on Maddie's posts"
+          "content": "Make a comment on Maddie's posts"
         }
       ]
     },
@@ -2158,7 +2153,7 @@
       "name": "pictures",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img2.png"
         },
@@ -2217,12 +2212,12 @@
         {
           "JSXType": "link:action",
           "linksTo": "Approve",
-          "content": "[[Approve]] the request"
+          "content": "Approve the request"
         },
         {
           "JSXType": "link:action",
           "linksTo": "Deny",
-          "content": "[[Deny]] the request"
+          "content": "Deny the request"
         }
       ]
     },
@@ -2305,12 +2300,12 @@
         {
           "JSXType": "link:action",
           "linksTo": "Approve",
-          "content": "[[Approve]] the request"
+          "content": "Approve the request"
         },
         {
           "JSXType": "link:action",
           "linksTo": "Deny",
-          "content": "[[Deny]] the request"
+          "content": "Deny the request"
         }
       ]
     },
@@ -2319,7 +2314,7 @@
       "name": "wishes she hadn't",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img6.png"
         },
@@ -2954,7 +2949,7 @@
         {
           "JSXType": "link:action",
           "linksTo": "Blame",
-          "content": "[[Blame]] Maddie"
+          "content": "Blame Maddie"
         },
         {
           "JSXType": "link:action",
@@ -3348,7 +3343,7 @@
       "name": "DM",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img5.png"
         },
@@ -4046,7 +4041,7 @@
       "name": "messages",
       "content": [
         {
-          "JSXType": "text:paragraphStart",
+          "JSXType": "image",
           "linksTo": null,
           "content": "img7.png"
         },

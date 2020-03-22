@@ -16,7 +16,6 @@ const storyConverter = (story, outputname) => {
   }
   
   const splitText = body => {
-    console.log(body)
     const elements = body.split('\n').filter(e => !!e)
     const formatted = elements.map(e => {
       if(e.trim().startsWith('<img')) return handleImg(e)
@@ -101,7 +100,6 @@ const storyConverter = (story, outputname) => {
   }
   
   const formattedPassages = passages.map(p => {
-    console.log(p)
     const {openTag, body} = splitPassage(p)
     const meta = getMetaData(openTag)
     const JSXElementList = splitText(body)

@@ -18,7 +18,7 @@ const Passage = (props: IPassageProps) => {
       case 'text':
         return <Text style={styles.passageText} key={i}>{passage.content}</Text>
       case 'text:paragraphStart':
-        return <Text style={[styles.passageText, styles.paragraphStart]} key={i}>{passage.content}</Text>
+        return <Text style={styles.passageText} key={i}>{passage.content}</Text>
       case 'phone':
         if (typeof passage.content !== 'string') {
           return <Phone key={i} name={passage.content.name} messages={passage.content.messages} image={''} />
@@ -36,8 +36,6 @@ const Passage = (props: IPassageProps) => {
       case 'image':
         let image = imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]
         if (!image) image = imageMapper.general[passage.content as keyof typeof imageMapper]
-        console.log(passage.content)
-        console.log(image)
         return passage.linksTo
           ? <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
             <Image style={[styles.choiceIcon, {height: image.height, width:image.width}]} source={image.source}/>
@@ -86,17 +84,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000',
     alignSelf: 'flex-start',
-    borderColor:'purple',
-    borderWidth:1,
     marginBottom:20
   },
-  paragraphStart: {
-    borderWidth: 1,
-    borderColor: 'green'
-  },
   embeddedLink: {
-    borderColor: 'red',
-    borderWidth: 1,
     marginBottom: 20
   },
   profileImage: {

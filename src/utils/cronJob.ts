@@ -7,7 +7,7 @@ import { IFormVals } from '../screens/Form'
 const getUrl: string = ''
 const postUrl: string = ''
 
-export const cronjob = async (): void => {
+export const cronjob = async (): Promise<void> => {
   const isConnected = await checkConnectivity()
   if (!isConnected) return
   await getAndSend('form-responses', getUrl, 'get')
