@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'
-import { NetInfo } from '@react-native-community/netinfo'
+import NetInfo from '@react-native-community/netinfo'
 import axios from 'axios'
 import queryString from 'query-string'
 import { IFormVals } from '../screens/Form'
@@ -7,7 +7,7 @@ import { IFormVals } from '../screens/Form'
 const getUrl: string = ''
 const postUrl: string = ''
 
-export const cronjob = async (): void => {
+export const cronjob = async (): Promise<void> => {
   const isConnected = await checkConnectivity()
   if (!isConnected) return
   await getAndSend('form-responses', getUrl, 'get')
@@ -35,7 +35,7 @@ const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: stri
 const checkConnectivity = async (): Promise<boolean> => {
   try {
     const netInfo = await NetInfo.fetch()
-    return netInfo.isInternetReachable
+    return Boolean(netInfo.isInternetReachable)
   }catch(err) {
     await storeErrors(err)
     return false

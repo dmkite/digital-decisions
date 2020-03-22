@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
   },
   booleanForm: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     flexWrap: 'wrap'
   },
   filled: {
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   label: {
-    marginRight: 10
+    marginRight: 20
   }
 })
 

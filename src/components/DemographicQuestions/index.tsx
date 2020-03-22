@@ -70,7 +70,7 @@ const DemographicQuestions = (props: IDemoProps) => {
       <TouchableOpacity onPress={() => dispatch({ type: Action.REQUEST_INFO, payload: 'race' })}>
         <Text style={styles.requestInfoLink}>Why do you need to know my race?</Text>
       </TouchableOpacity>
-      {isRequestingInfo.gender
+      {isRequestingInfo.race
         ? <TouchableOpacity onPress={() => dispatch({ type: Action.REQUEST_INFO, payload: 'race' })}>
           <Text style={styles.infoText}>{WHY_DEMOGRAPHICS}</Text>
         </TouchableOpacity>

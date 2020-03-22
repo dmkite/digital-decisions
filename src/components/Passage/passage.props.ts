@@ -6,7 +6,8 @@ export interface IDispatchProps {
 
 export interface IStateProps {
   selectedPassage: string
-  passages: IPassageObject
+  passages: IPassageObject,
+  modNumber: string
 }
 
 export default interface IPassageProps extends IDispatchProps, IStateProps {}

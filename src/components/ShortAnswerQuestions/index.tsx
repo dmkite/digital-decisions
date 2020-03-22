@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   },
   textArea: {
     borderLeftWidth:1,
-    borderLeftColor: '#999'
+    borderLeftColor: '#999',
+    textAlignVertical: 'top'
   }
 })
 
