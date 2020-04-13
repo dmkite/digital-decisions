@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import axios from 'axios'
 import queryString from 'query-string'
@@ -7,18 +7,19 @@ import { IFormVals } from '../screens/Form'
 const getUrl: string = ''
 const postUrl: string = ''
 
-export const cronjob = async (): Promise<void> => {
+export const cronjob = async (): Promise<string> => {
   const isConnected = await checkConnectivity()
-  if (!isConnected) return
-  await getAndSend('form-responses', getUrl, 'get')
+  if (!isConnected) return 'No internet connection.'
+  const response = await getAndSend('form-responses', getUrl, 'get')
   await getAndSend('errors', postUrl, 'post')
+  return response
 }
 
 const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: string) => {
   try {
     const storedVals: string | null = await AsyncStorage.getItem(asyncStorageKey)
     const parsedVals: IError[] | IFormVals[] = storedVals ? JSON.parse(storedVals) : []
-    if(!parsedVals.length) return
+    if(!parsedVals.length) return 'No form responses to submit'
     parsedVals.forEach(async (v: IError | IFormVals) => {
       if(method === 'get') {
         const params = constructParams(v)
@@ -27,8 +28,10 @@ const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: stri
         await axios.post(baseUrl, JSON.stringify(v))
       }
     })
+    return `Successfully sent ${parsedVals.length} form response${parsedVals.length > 1 ? 's': ''}`
   } catch(err) {
     storeErrors(err)
+    return `Something went wrong.`
   }
 }
 

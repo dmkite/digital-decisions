@@ -5,6 +5,7 @@ import DemographicQuestions from '../components/DemographicQuestions'
 import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
+import Header from '../components/Header'
 
 export interface IFormVals {
   demographics: {
@@ -122,7 +123,7 @@ const sanitizeValues = (value: string): string => {
   const arrVal: string[] = value.split('').filter((char: string) => {
     return 48 <= char.charCodeAt(0) && char.charCodeAt(0) <= 57
   })
-  return arrVal.join('').trim() 
+  return arrVal.join('').trim()
 }
 
 const reducer = (state: IFormState, action: IFormAction): IFormState => {
@@ -130,7 +131,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
   const field = payload && typeof payload !== 'string' ? payload.field : 'error'
   let value = payload && typeof payload !== 'string' ? payload.value : 'error'
   if (field === 'zipCode' || field === 'age') {
-    
+
     value = sanitizeValues(String(value))
   }
   switch (action.type) {
@@ -152,9 +153,9 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.ENTER_DEMO:
       return { ...state, demographics: { ...state.demographics, [field]: value } }
     case Action.ENTER_T_F:
-      return {...state, trueFalse: {...state.trueFalse, [field]: (value as boolean)}}
+      return { ...state, trueFalse: { ...state.trueFalse, [field]: (value as boolean) } }
     case Action.ENTER_SHORT_ANSWER:
-      return {...state, shortAnswer: {...state.shortAnswer, [field]: (value as string)}}
+      return { ...state, shortAnswer: { ...state.shortAnswer, [field]: (value as string) } }
     case Action.REQUEST_INFO:
       return { ...state, isRequestingInfo: { ...state.isRequestingInfo, [payload as string]: !state.isRequestingInfo[payload as string] } }
     case Action.SHOW_HIDE_SECTION:
@@ -197,7 +198,7 @@ const Form = (props: any) => {
     try {
       console.log('trying')
       let storedForms: string | null = await AsyncStorage.getItem('form-results')
-      console.log({storedForms})
+      console.log({ storedForms })
       const parsedResults: any[] = storedForms ? JSON.parse(storedForms) : []
       parsedResults.push(formResults)
       console.log(parsedResults)
@@ -216,6 +217,7 @@ const Form = (props: any) => {
 
   return (
     <>
+      <Header />
       {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
       {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
       {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}

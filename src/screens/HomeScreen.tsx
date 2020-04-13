@@ -1,9 +1,9 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import {
+  ActivityIndicator,
   StyleSheet,
   View,
   Text,
-  Image,
   ScrollView,
   TouchableOpacity
 } from 'react-native';
@@ -13,7 +13,9 @@ import { ITitleCardProps } from '../components/TitleCard/TitleCard.props';
 import SelectionModal from '../components/SelectionModal/'
 import { NavigationStackProp } from 'react-navigation-stack';
 import modules from '../stories'
-import Icon  from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {cronjob} from '../utils/cronJob'
+import Header from '../components/Header'
 
 interface IState {
   selectedStory: null | ITitleCardProps
@@ -48,25 +50,42 @@ export interface INavigationProps {
   navigation: NavigationStackProp<string>
 }
 
+
 const HomeScreen = (props: INavigationProps): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [isUploading, changeUpload] = useState<boolean>(false)
+  const [message, setMessage] = useState<string | null>(null)
+  
+  const handleUpload = async () => {
+    changeUpload(true)
+    const response = await cronjob()
+    changeUpload(false)
+    setMessage(response)
+    setTimeout(() => setMessage(null), 5000)
+  }
+
   return (
     <>
       <LinearGradient colors={['#bbb', '#fff']} style={styles.linearGradient} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
-        <View style={styles.header}>
-          <Image style={styles.headerLogo} source={require('../assets/wacc-logo.png')} />
-          <View style={styles.headerText}>
-            <Text style={styles.title}>Digital Decisions</Text>
-            <Text style={styles.subtitle}>Washtenaw Area Council for Children</Text>
-          </View>
-        </View>
+        <Header/>
+        {isUploading ? <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View> : null}
+        {message ? <Text style={styles.banner}>{message}</Text> : null}
+
         <ScrollView contentContainerStyle={styles.main}>
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
+
           <TouchableOpacity onPress={() => props.navigation.navigate('Form')}>
             <LinearGradient colors={['#393633', '#999693']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
-             <Icon style={{lineHeight: 250, alignSelf: 'center'}} name="th-list" size={200} color="white"/>
+              <Icon style={{ lineHeight: 250, alignSelf: 'center' }} name="th-list" size={200} color="white" />
             </LinearGradient>
             <Text style={styles.titleCardFont}>Form</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleUpload}>
+            <LinearGradient colors={['#393633', '#999693']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
+              <Icon style={{ lineHeight: 250, alignSelf: 'center' }} name="cloud-upload" size={200} color="white" />
+            </LinearGradient>
+            <Text style={styles.titleCardFont}>Upload form responses</Text>
           </TouchableOpacity>
         </ScrollView>
       </LinearGradient>
@@ -79,31 +98,13 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    padding: 20
-  },
-  header: {
-    flexDirection: 'row',
-    marginBottom: 1
-  },
-  headerLogo: {
-    height: 100,
-    width: 100
-  },
-  headerText: {
-    paddingLeft: 20,
-    paddingTop: 5
-  },
-  title: {
-    fontSize: 36
-  },
-  subtitle: {
-    fontSize: 24
   },
   main: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 50,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    padding: 20
   },
   titleCard: {
     width: 250,
@@ -117,7 +118,32 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     margin: 25
-  }
+  },
+  banner: {
+    flex: 1,
+    borderBottomWidth: 3,
+    borderColor: '#2277bc',
+    position: 'absolute',
+    top: 130,
+    left: 0,
+    right: 0,
+    padding: 20,
+    fontSize: 18,
+    zIndex: 10,
+    backgroundColor: '#55aaef',
+    color: 'white'
+  },
+  screen: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#00000050',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingTop: '50%'
+  },
 });
 
 export default HomeScreen

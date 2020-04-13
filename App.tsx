@@ -8,7 +8,6 @@ import React, {useEffect} from 'react'
 import store from './src/store'
 import {cronjob} from './src/utils/cronJob'
 import BackgroundTask from 'react-native-background-task'
-import AsyncStorage from '@react-native-community/async-storage'
 
 BackgroundTask.define(async (): Promise<void> => {
   console.log('FIRING')
@@ -19,19 +18,6 @@ BackgroundTask.define(async (): Promise<void> => {
   await cronjob()
   BackgroundTask.finish()
 })
-
-const x = async () => {
-  console.log('about to get async storage')
-  try {
-    const vals = await AsyncStorage.getItem('form-results')
-    console.log(vals)
-  } catch(e) {
-    console.error(e)
-  }
-  console.log('storage access complete')
-}
-
-setInterval(x, 10000)
 
 const MainNavigator = createStackNavigator({
   Home: {
@@ -57,7 +43,15 @@ const MainNavigator = createStackNavigator({
 const AppContainer = createAppContainer(MainNavigator)
 
 const App = () => {
-  useEffect(() => BackgroundTask.schedule({period: 900}))
+  const getStatus = async () => {
+    const status = await BackgroundTask.statusAsync()
+    console.table(status)
+  }
+  useEffect(() => {
+    console.log('Background is firing')
+    getStatus()
+    return BackgroundTask.schedule({period: 900})
+    }, [])
   return (
     <Provider store={store}>
       <AppContainer />
