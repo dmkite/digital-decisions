@@ -5,7 +5,7 @@ import { selectPassage } from '../../actions/story'
 import { bindActionCreators, Dispatch, Action } from 'redux'
 import { connect } from 'react-redux'
 import { AppState } from '../../store'
-import { IJSXContent, IStoryState, IPhoneContent } from '../../IRedux'
+import { IJSXContent } from '../../IRedux'
 import Phone from '../Phone'
 import imageMapper from '../../utils/imageMapper'
 

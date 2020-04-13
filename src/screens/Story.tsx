@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { AppState } from '../store'
 import LinearGradient from 'react-native-linear-gradient'

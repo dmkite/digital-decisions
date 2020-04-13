@@ -14,19 +14,20 @@ interface IPhoneProps {
 }
 
 const Phone = (props: IPhoneProps): JSX.Element => {
+  console.log(props)
   return (
     <View style={styles.centerContainer}>
       <View style={styles.phoneOutline}>
         <View style={styles.utilBar}>
           <Icon name="chevron-left" size={20} color="#0176FD" />
           <View style={styles.contact}>
-            <Image source={require('../../assets/wacc-logo.png')} style={styles.profileImage} />
-            <Text style={styles.contactName}>{props.name || 'Dylan'} ></Text>
+            <Text style={styles.profileLetter}>{props.name[0]}</Text>
+            <Text style={styles.contactName}>{props.name} ></Text>
           </View>
           <View style={{ width: 20 }}></View>
         </View>
         <ScrollView style={styles.screen}>
-          {props.messages.map((m: IText, i: number): JSX.Element => <Text style={[styles.text, m.isReceived ? styles.received : null]}>{m.text}</Text>)}
+          {props.messages.map((m: IText, i: number): JSX.Element => <Text key={i} style={[styles.text, m.isReceived ? styles.received : null]}>{m.content}</Text>)}
         </ScrollView>
         <View style={styles.messageBar}>
           <View style={styles.enterText}></View>
@@ -49,14 +50,15 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     paddingHorizontal: 10,
     paddingTop: 50,
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom:20
   },
   screen: {
     backgroundColor: '#fff',
     width: 280,
     height: 550,
     padding: 10,
-    paddingBottom: 50
+    
   },
   homeButton: {
     height: 40,
@@ -76,9 +78,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  profileImage: {
-    height: 40,
-    width: 40
+  profileLetter: {
+    backgroundColor: 'gray',
+    fontSize:36,
+    lineHeight:40,
+    height:40,
+    width:40,
+    textAlign: 'center',
+    borderRadius: 20,
+    padding:0,
+    color:'white'
   },
   contact: {
     width: 100,
@@ -98,7 +107,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   enterText: {
-    // width:200,
     flex: 0.7,
     height: 30,
     borderRadius: 32,
@@ -120,12 +128,15 @@ const styles = StyleSheet.create({
     maxWidth: '70%',
     alignSelf: 'flex-start',
     padding: 10,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    color: 'black',
+    marginBottom: 10
   },
   received: {
     backgroundColor: '#0680FE',
     color: '#fff',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   }
 })
+
 export default Phone

@@ -16,6 +16,7 @@ import modules from '../stories'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {cronjob} from '../utils/cronJob'
 import Header from '../components/Header'
+import Snackbar from '../components/Snackbar'
 
 interface IState {
   selectedStory: null | ITitleCardProps
@@ -69,8 +70,7 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
       <LinearGradient colors={['#bbb', '#fff']} style={styles.linearGradient} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         <Header/>
         {isUploading ? <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View> : null}
-        {message ? <Text style={styles.banner}>{message}</Text> : null}
-
+        {message ? <Snackbar message={message}/> : null}
         <ScrollView contentContainerStyle={styles.main}>
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
 

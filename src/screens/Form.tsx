@@ -6,6 +6,7 @@ import { School, Race, Gender } from '../components/DemographicQuestions/DemoPro
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
 import Header from '../components/Header'
+import Snackbar from '../components/Snackbar'
 
 export interface IFormVals {
   demographics: {
@@ -219,9 +220,9 @@ const Form = (props: any) => {
     <>
       <Header />
       {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
-      {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
-      {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}
-
+      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS"/>}
+      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR"/>}
+      
       <ScrollView style={styles.form}>
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'demographics', value: '' } })}>
           <Text style={styles.sectionTitle}>Demographics</Text>
@@ -322,27 +323,6 @@ const styles = StyleSheet.create({
   },
   hiddenField: {
     flexDirection: 'row'
-  },
-  thankYou: {
-    borderBottomColor: '#192201',
-    backgroundColor: '#DDF2AE',
-    color: '#192201'
-  },
-  error: {
-    borderBottomColor: '#73020C',
-    backgroundColor: '#F27272',
-    color: '#73020C',
-  },
-  banner: {
-    flex: 1,
-    borderBottomWidth: 3,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-    fontSize: 18,
-    zIndex: 10
   },
   screen: {
     flex: 1,
