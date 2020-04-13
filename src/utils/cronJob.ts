@@ -3,13 +3,15 @@ import NetInfo from '@react-native-community/netinfo'
 import axios from 'axios'
 import queryString from 'query-string'
 import { IFormVals } from '../screens/Form'
+import config from '../config'
 
-const getUrl: string = ''
-const postUrl: string = ''
+const postUrl: string = 'https://sheets.googleapis.com/v4/spreadsheets'
+
 
 export const cronjob = async (): Promise<string> => {
   const isConnected = await checkConnectivity()
   if (!isConnected) return 'No internet connection.'
+  const baseURL = `${postUrl}/${config.spreadsheetID}/values/A1:Z1:append`
   const response = await getAndSend('form-responses', getUrl, 'get')
   await getAndSend('errors', postUrl, 'post')
   return response
@@ -23,6 +25,7 @@ const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: stri
     parsedVals.forEach(async (v: IError | IFormVals) => {
       if(method === 'get') {
         const params = constructParams(v)
+
         await axios.get(`${baseUrl}/?${params}`)
       } else {
         await axios.post(baseUrl, JSON.stringify(v))
