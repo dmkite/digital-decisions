@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Picker, TextInput } from 'rea
 import IDemoProps, { Gender, Race } from './DemoProps'
 import RadioSelect from '../RadioSelect'
 import schoolList from '../../assets/schoolList.json'
-console.log(schoolList)
 const WHY_DEMOGRAPHICS: string = "WACC is a nonprofit. We don't sell a product to make money. Instead we rely on grants to fund our free programs. Some grants ask questions about the people we work with. It may seem strange, but some grants request demographics for age, race, and gender. If we don't have that information, we can't apply for the grants. Thanks for helping us out!"
 
 const DemographicQuestions = (props: IDemoProps) => {

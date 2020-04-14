@@ -193,25 +193,21 @@ const Form = (props: any) => {
     }
     const shouldStore = hasEntries(formResults)
     if (!shouldStore) {
-      setTimeout(() => props.navigation.navigate('Home'), 5000)
+      setTimeout(() => props.navigation.navigate('Home'), 3000)
       return dispatch({ type: Action.COMPLETE_SUBMIT })
     }
     try {
-      console.log('trying')
       let storedForms: string | null = await AsyncStorage.getItem('form-results')
-      console.log({ storedForms })
       const parsedResults: any[] = storedForms ? JSON.parse(storedForms) : []
       parsedResults.push(formResults)
-      console.log(parsedResults)
       await AsyncStorage.setItem('form-results', JSON.stringify(parsedResults))
       dispatch({ type: Action.CLEAR })
     } catch (err) {
       // do something with the err here.
-      console.log(err)
       dispatch({ type: Action.SET_ERROR })
       setTimeout(() => dispatch({ type: Action.SET_ERROR }), 5000)
     } finally {
-      setTimeout(() => props.navigation.navigate('Home'), 5000)
+      setTimeout(() => props.navigation.navigate('Home'), 3000)
       dispatch({ type: Action.COMPLETE_SUBMIT })
     }
   }

@@ -7,5 +7,5 @@ export default interface ISnackbarProps {
     /**
      * The severity and color that the snackbar should have. Defaults to blue
      */
-    severity?: 'ERROR' | 'SUCCESS'
+    severity?: 'ERROR' | 'SUCCESS' | null
 }

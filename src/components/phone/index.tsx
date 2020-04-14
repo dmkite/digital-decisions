@@ -14,7 +14,6 @@ interface IPhoneProps {
 }
 
 const Phone = (props: IPhoneProps): JSX.Element => {
-  console.log(props)
   return (
     <View style={styles.centerContainer}>
       <View style={styles.phoneOutline}>

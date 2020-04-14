@@ -1,19 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import axios from 'axios'
-import queryString from 'query-string'
 import { IFormVals } from '../screens/Form'
-import config from '../config'
 
-const postUrl: string = 'https://sheets.googleapis.com/v4/spreadsheets'
-
+const postUrl: string = 'https://script.google.com/macros/s/AKfycbze55LkWgLwOUDYON8OE8Z91xL5HVqxk8146fesgMdx1dSxmE00/exec'
 
 export const cronjob = async (): Promise<string> => {
   const isConnected = await checkConnectivity()
   if (!isConnected) return 'No internet connection.'
-  const baseURL = `${postUrl}/${config.spreadsheetID}/values/A1:Z1:append`
-  const response = await getAndSend('form-responses', getUrl, 'get')
-  await getAndSend('errors', postUrl, 'post')
+  const response = await getAndSend('form-results', postUrl, 'get')
+  // await getAndSend('errors', postUrl, 'post')
   return response
 }
 
@@ -21,16 +17,11 @@ const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: stri
   try {
     const storedVals: string | null = await AsyncStorage.getItem(asyncStorageKey)
     const parsedVals: IError[] | IFormVals[] = storedVals ? JSON.parse(storedVals) : []
+    console.log('++++++++++++++++')
+    console.log(parsedVals)
+    console.log('++++++++++++++++')
     if(!parsedVals.length) return 'No form responses to submit'
-    parsedVals.forEach(async (v: IError | IFormVals) => {
-      if(method === 'get') {
-        const params = constructParams(v)
-
-        await axios.get(`${baseUrl}/?${params}`)
-      } else {
-        await axios.post(baseUrl, JSON.stringify(v))
-      }
-    })
+    await axios.post(postUrl, {data: {demographics:{age:12}}})
     return `Successfully sent ${parsedVals.length} form response${parsedVals.length > 1 ? 's': ''}`
   } catch(err) {
     storeErrors(err)
@@ -70,16 +61,4 @@ export const storeErrors = async (error: Error): Promise<boolean> => {
   } catch(err) {  
     return false
   }
-}
-
-const constructParams = (response:any): string => {
-  const paramObj = Object.keys(response).reduce((acc: {[key:string]: string}, k) => {
-    const entries = response[k]
-    Object.keys(entries).forEach(subKey => {
-      const topicAndQuestion: string = k + subKey
-      acc[topicAndQuestion] = entries[subKey]
-    })
-    return acc
-  }, {})
-  return queryString.stringify(paramObj)
 }
