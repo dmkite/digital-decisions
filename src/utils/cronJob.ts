@@ -8,22 +8,24 @@ const postUrl: string = 'https://script.google.com/macros/s/AKfycbze55LkWgLwOUDY
 export const cronjob = async (): Promise<string> => {
   const isConnected = await checkConnectivity()
   if (!isConnected) return 'No internet connection.'
-  const response = await getAndSend('form-results', postUrl, 'get')
-  // await getAndSend('errors', postUrl, 'post')
+  const response = await getAndSend('form-results', postUrl)
   return response
 }
 
-const getAndSend = async (asyncStorageKey: string, baseUrl: string, method: string) => {
+const getAndSend = async (asyncStorageKey: string, url: string) => {
   try {
     const storedVals: string | null = await AsyncStorage.getItem(asyncStorageKey)
     const parsedVals: IError[] | IFormVals[] = storedVals ? JSON.parse(storedVals) : []
-    console.log('++++++++++++++++')
-    console.log(parsedVals)
-    console.log('++++++++++++++++')
     if(!parsedVals.length) return 'No form responses to submit'
-    await axios.post(postUrl, {data: {demographics:{age:12}}})
+    await axios({
+      method: 'post',
+      url,
+      data: parsedVals
+    })
+    AsyncStorage.removeItem(asyncStorageKey)
     return `Successfully sent ${parsedVals.length} form response${parsedVals.length > 1 ? 's': ''}`
   } catch(err) {
+    console.error(err.message)
     storeErrors(err)
     return `Something went wrong.`
   }
@@ -45,7 +47,7 @@ interface IError {
   stack: string
 }
 
-
+// TODO: implement this in a separate google sheet that I control
 export const storeErrors = async (error: Error): Promise<boolean> => {
   try {
     const errors: string | null = await AsyncStorage.getItem('errors')

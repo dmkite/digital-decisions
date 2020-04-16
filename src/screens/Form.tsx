@@ -187,7 +187,7 @@ const Form = (props: any) => {
   const handleSubmit = async (): Promise<any> => {
     dispatch({ type: Action.SUBMIT })
     const formResults = {
-      trueFalse: state.trueFalse,
+      trueOrFalse: state.trueFalse,
       demographics: state.demographics,
       shortAnswer: state.shortAnswer
     }
