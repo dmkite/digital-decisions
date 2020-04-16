@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { AppState } from '../store'
 import LinearGradient from 'react-native-linear-gradient'
@@ -23,7 +23,7 @@ const Story = (props: any) => {
         <ImageBackground source={require('../assets/module2-texture.png')} style={styles.imageTexture} >
           <View style={styles.row}>
             <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-              <View style={{ borderWidth: 1 }}>
+              <View>
                 <Icon name='undo' size={30} color={props.passageHistory.length ? '#555' : '#55555550'} />
               </View>
             </TouchableOpacity>
@@ -70,12 +70,21 @@ const styles = StyleSheet.create({
 })
 
 interface IStateProps {
-  selectedStory: string
+  selectedStory: null | { 
+    title: string; 
+    gradientValues: string[]; 
+    description: string; 
+    moduleNumber: string; 
+  } 
   passageHistory: string[]
   selectedPassage: string
 }
 
-const mapStateToProps = (state: AppState): IStateProps => ({ selectedStory: state.story.selectedStory, passageHistory: state.story.passageHistory, selectedPassage: state.story.selectedPassage })
+const mapStateToProps = (state: AppState): IStateProps => ({ 
+  selectedStory: state.story.selectedStory, 
+  passageHistory: state.story.passageHistory, 
+  selectedPassage: state.story.selectedPassage 
+})
 
 interface IDispatchProps {
   goToLastPassage: () => void

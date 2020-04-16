@@ -5,6 +5,8 @@ import DemographicQuestions from '../components/DemographicQuestions'
 import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
+import Header from '../components/Header'
+import Snackbar from '../components/Snackbar'
 
 export interface IFormVals {
   demographics: {
@@ -122,7 +124,7 @@ const sanitizeValues = (value: string): string => {
   const arrVal: string[] = value.split('').filter((char: string) => {
     return 48 <= char.charCodeAt(0) && char.charCodeAt(0) <= 57
   })
-  return arrVal.join('').trim() 
+  return arrVal.join('').trim()
 }
 
 const reducer = (state: IFormState, action: IFormAction): IFormState => {
@@ -130,7 +132,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
   const field = payload && typeof payload !== 'string' ? payload.field : 'error'
   let value = payload && typeof payload !== 'string' ? payload.value : 'error'
   if (field === 'zipCode' || field === 'age') {
-    
+
     value = sanitizeValues(String(value))
   }
   switch (action.type) {
@@ -152,9 +154,9 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.ENTER_DEMO:
       return { ...state, demographics: { ...state.demographics, [field]: value } }
     case Action.ENTER_T_F:
-      return {...state, trueFalse: {...state.trueFalse, [field]: (value as boolean)}}
+      return { ...state, trueFalse: { ...state.trueFalse, [field]: (value as boolean) } }
     case Action.ENTER_SHORT_ANSWER:
-      return {...state, shortAnswer: {...state.shortAnswer, [field]: (value as string)}}
+      return { ...state, shortAnswer: { ...state.shortAnswer, [field]: (value as string) } }
     case Action.REQUEST_INFO:
       return { ...state, isRequestingInfo: { ...state.isRequestingInfo, [payload as string]: !state.isRequestingInfo[payload as string] } }
     case Action.SHOW_HIDE_SECTION:
@@ -185,41 +187,38 @@ const Form = (props: any) => {
   const handleSubmit = async (): Promise<any> => {
     dispatch({ type: Action.SUBMIT })
     const formResults = {
-      trueFalse: state.trueFalse,
+      trueOrFalse: state.trueFalse,
       demographics: state.demographics,
       shortAnswer: state.shortAnswer
     }
     const shouldStore = hasEntries(formResults)
     if (!shouldStore) {
-      setTimeout(() => props.navigation.navigate('Home'), 5000)
+      setTimeout(() => props.navigation.navigate('Home'), 3000)
       return dispatch({ type: Action.COMPLETE_SUBMIT })
     }
     try {
-      console.log('trying')
       let storedForms: string | null = await AsyncStorage.getItem('form-results')
-      console.log({storedForms})
       const parsedResults: any[] = storedForms ? JSON.parse(storedForms) : []
       parsedResults.push(formResults)
-      console.log(parsedResults)
       await AsyncStorage.setItem('form-results', JSON.stringify(parsedResults))
       dispatch({ type: Action.CLEAR })
     } catch (err) {
       // do something with the err here.
-      console.log(err)
       dispatch({ type: Action.SET_ERROR })
       setTimeout(() => dispatch({ type: Action.SET_ERROR }), 5000)
     } finally {
-      setTimeout(() => props.navigation.navigate('Home'), 5000)
+      setTimeout(() => props.navigation.navigate('Home'), 3000)
       dispatch({ type: Action.COMPLETE_SUBMIT })
     }
   }
 
   return (
     <>
+      <Header />
       {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
-      {state.isSubmitted && <Text style={[styles.thankYou, styles.banner]}>Thanks For completing our Form!</Text>}
-      {state.error && <Text style={[styles.error, styles.banner]}>Uh oh. Something went wrong.</Text>}
-
+      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS"/>}
+      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR"/>}
+      
       <ScrollView style={styles.form}>
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'demographics', value: '' } })}>
           <Text style={styles.sectionTitle}>Demographics</Text>
@@ -320,27 +319,6 @@ const styles = StyleSheet.create({
   },
   hiddenField: {
     flexDirection: 'row'
-  },
-  thankYou: {
-    borderBottomColor: '#192201',
-    backgroundColor: '#DDF2AE',
-    color: '#192201'
-  },
-  error: {
-    borderBottomColor: '#73020C',
-    backgroundColor: '#F27272',
-    color: '#73020C',
-  },
-  banner: {
-    flex: 1,
-    borderBottomWidth: 3,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-    fontSize: 18,
-    zIndex: 10
   },
   screen: {
     flex: 1,

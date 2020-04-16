@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import ISelectionModalProps from './SelectionModal.props'
-import { connect, batch } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
+import { bindActionCreators, Dispatch, Action } from 'redux'
 import { selectStory, IAction } from '../../actions/story'
 
-const SelectionModal = (props: ISelectionModalProps): JSX.Element => {
+const SelectionModal = (props: ISelectionModalProps) => {
   const { dispatch = () => { }, title, description } = props
 
   const handleRejectPress = () => {
@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => bindActionCreators({ selectStory }, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => bindActionCreators({ selectStory }, dispatch)
 
 export default connect(null, mapDispatchToProps)(SelectionModal)

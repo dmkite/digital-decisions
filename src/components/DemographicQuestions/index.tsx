@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Picker, TextInput } from 'react-native'
-import IDemoProps, { Gender, Race, School } from './DemoProps'
+import IDemoProps, { Gender, Race } from './DemoProps'
 import RadioSelect from '../RadioSelect'
-
+import schoolList from '../../assets/schoolList.json'
 const WHY_DEMOGRAPHICS: string = "WACC is a nonprofit. We don't sell a product to make money. Instead we rely on grants to fund our free programs. Some grants ask questions about the people we work with. It may seem strange, but some grants request demographics for age, race, and gender. If we don't have that information, we can't apply for the grants. Thanks for helping us out!"
 
 const DemographicQuestions = (props: IDemoProps) => {
@@ -18,15 +18,15 @@ const DemographicQuestions = (props: IDemoProps) => {
             onValueChange={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'school', value } })}
           >
             <Picker.Item label="Select a school" value={demographics.school} />
-            {Object.keys(School).map((key: string, i: number): JSX.Element => {
+            {schoolList.map((school: string, i: number): JSX.Element => {
 
-              return <Picker.Item key={i} label={School[key as keyof typeof School]} value={School[key as keyof typeof School]} />
+              return <Picker.Item key={i} label={school} value={school} />
             })}
           </Picker>
 
         </View>
         {
-          demographics.school === School.NotListed
+          demographics.school === "Not Listed"
             ? <TextInput
               style={[styles.input, styles.hiddenInput]}
               onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'altSchool', value } })}
