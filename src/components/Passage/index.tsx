@@ -5,7 +5,7 @@ import { selectPassage } from '../../actions/story'
 import { bindActionCreators, Dispatch, Action } from 'redux'
 import { connect } from 'react-redux'
 import { AppState } from '../../store'
-import { IJSXContent } from '../../IRedux'
+import { IJSXContent } from '../../Iredux'
 import Phone from '../Phone'
 import imageMapper from '../../utils/imageMapper'
 
@@ -30,30 +30,35 @@ const Passage = (props: IPassageProps) => {
         </Text>
         </TouchableWithoutFeedback>
       case 'link:embedded':
-        return <Text key={i} style={styles.embeddedLink}>
-          {passage.content.map(generateJSX)}
-        </Text>
+        if (Array.isArray(passage.content)) {
+          return <Text key={i} style={styles.embeddedLink}>
+            {passage.content.map(generateJSX)}
+          </Text>
+        }
       case 'image':
         let image = imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]
         if (!image) image = imageMapper.general[passage.content as keyof typeof imageMapper]
-        return passage.linksTo
-          ? <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
-            <Image style={[styles.choiceIcon, {height: image.height, width:image.width}]} source={image.source}/>
+        if (passage.linksTo) {
+          return <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
+            <Image style={[styles.choiceIcon, { height: image.height, width: image.width }]} source={image.source} />
           </TouchableOpacity>
-          : <Image 
-              key={i} 
-              style={[(passage.content.includes('bio') ? styles.profileImage : styles.genericImage),{height:image.height, width:image.width}]}
-              source={image.source}
-            />
+        }
+        if (typeof passage.content === 'string') {
+          return <Image
+            key={i}
+            style={[(passage.content.includes('bio') ? styles.profileImage : styles.genericImage), { height: image.height, width: image.width }]}
+            source={image.source}
+          />
+        }
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
   }
 
   return (
-      <View style={styles.passageContent}>
-        {props.passages[props.selectedPassage].content.map(generateJSX)}
-      </View>
+    <View style={styles.passageContent}>
+      {props.passages[props.selectedPassage].content.map(generateJSX)}
+    </View>
   )
 }
 
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     color: 'teal',
     fontWeight: 'bold',
     fontSize: 20,
-     alignSelf: 'flex-start',
+    alignSelf: 'flex-start',
   },
   actionLink: {
     marginBottom: 20
@@ -84,34 +89,38 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000',
     alignSelf: 'flex-start',
-    marginBottom:20
+    marginBottom: 20
   },
   embeddedLink: {
     marginBottom: 20
   },
   profileImage: {
-    width:400,
-    height:400,
+    width: 400,
+    height: 400,
     alignSelf: 'center',
     marginBottom: 20,
-    borderWidth:1
+    borderWidth: 1
   },
   genericImage: {
-    height:600, width:200, alignSelf:'center'
+    height: 600, width: 200, alignSelf: 'center'
   },
   choiceIcon: {
-    width:75,
-    height:75
+    width: 75,
+    height: 75
   }
 })
 
 const mapStateToProps = (state: AppState): IStateProps => ({
   selectedPassage: state.story.selectedPassage,
   passages: state.story.passages,
-  modNumber: state.story.selectedStory.moduleNumber
+  modNumber: state.story.selectedStory 
+    ? state.story.selectedStory.moduleNumber
+    : ''
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({ selectPassage }, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({
+  selectPassage 
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)
 

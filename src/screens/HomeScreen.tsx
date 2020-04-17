@@ -44,7 +44,8 @@ const stories: ITitleCardProps[] = Object.keys(modules).reduce((acc: ITitleCardP
   if (!title || !moduleNumber || !gradientValues || !gradientValues.length || !description) {
     return acc
   }
-  return [...acc, { title, moduleNumber, gradientValues, description }]
+  const story: ITitleCardProps = { title, moduleNumber: Number(moduleNumber), gradientValues, description }
+  return [...acc, story]
 }, [])
 
 export interface INavigationProps {
