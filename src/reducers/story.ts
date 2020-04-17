@@ -5,7 +5,7 @@ import {IStoryState, IAction} from '../Iredux'
 const initialState: IStoryState = {
   selectedStory: null,
   selectedPassage: 'Welcome!',
-  passageHistory: [],
+  passageHistory: ['Welcome!'],
   passages: {}
 }
 
@@ -19,7 +19,7 @@ export const storyReducer = (state: IStoryState = initialState, action: IAction)
         description: modules[moduleName].description,
         moduleNumber: modules[moduleName].moduleNumber,
       }
-      return {...state, selectedStory, passages: modules[moduleName].passages}
+      return {...initialState, selectedStory, passages: modules[moduleName].passages}
     case SELECT_PASSAGE:
       return {...state, selectedPassage: action.payload, passageHistory: [...state.passageHistory, action.payload]}
     case ADD_PASSAGE_NAME: 

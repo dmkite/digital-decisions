@@ -25,10 +25,16 @@ const Passage = (props: IPassageProps) => {
         }
       case 'link':
       case 'link:action':
-        return <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}><Text style={[styles.link, passage.JSXType === 'link:action' ? styles.actionLink : null]}>
-          {passage.content}
-        </Text>
-        </TouchableWithoutFeedback>
+        return (
+          <TouchableWithoutFeedback onPress={() => handlePress(passage.linksTo)} key={i}>
+            <Text
+              style={[styles.link, passage.JSXType === 'link:action'
+                ? styles.actionLink
+                : null]}>
+              {passage.content}
+            </Text>
+          </TouchableWithoutFeedback>
+        )
       case 'link:embedded':
         if (Array.isArray(passage.content)) {
           return <Text key={i} style={styles.embeddedLink}>
@@ -38,18 +44,29 @@ const Passage = (props: IPassageProps) => {
       case 'image':
         let image = imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]
         if (!image) image = imageMapper.general[passage.content as keyof typeof imageMapper]
-        if (passage.linksTo) {
-          return <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
-            <Image style={[styles.choiceIcon, { height: image.height, width: image.width }]} source={image.source} />
-          </TouchableOpacity>
-        }
         if (typeof passage.content === 'string') {
           return <Image
             key={i}
-            style={[(passage.content.includes('bio') ? styles.profileImage : styles.genericImage), { height: image.height, width: image.width }]}
+            style={[(passage.content.includes('bio')
+              ? styles.profileImage
+              : styles.genericImage),
+            { height: image.height, width: image.width }]}
             source={image.source}
           />
         }
+      case 'choiceBlock':
+        return (
+          <View style={styles.choiceBlock}>
+            {Array.isArray(passage.content) && passage.content.map((c, i) => {
+              const icon = imageMapper[`mod${props.modNumber}`][c.content as keyof typeof imageMapper]
+              return (
+                <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
+                  <Image style={[styles.choiceIcon, { height: icon.height, width: icon.width }]} source={icon.source} />
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        )
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
@@ -106,20 +123,24 @@ const styles = StyleSheet.create({
   },
   choiceIcon: {
     width: 75,
-    height: 75
-  }
+    height: 75,
+  },
+  choiceBlock: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
 })
 
 const mapStateToProps = (state: AppState): IStateProps => ({
   selectedPassage: state.story.selectedPassage,
   passages: state.story.passages,
-  modNumber: state.story.selectedStory 
+  modNumber: state.story.selectedStory
     ? state.story.selectedStory.moduleNumber
     : ''
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({
-  selectPassage 
+  selectPassage
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)

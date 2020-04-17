@@ -12,7 +12,7 @@ const Story = (props: any) => {
   const { selectedStory: { gradientValues = ['#ff0000', '#00ff00'] } } = props
 
   const handleBackPress = (): null | IAction => {
-    return props.passageHistory.length
+    return props.passageHistory.length > 1
       ? props.goToLastPassage()
       : null
   }
@@ -22,9 +22,9 @@ const Story = (props: any) => {
       <LinearGradient colors={gradientValues} style={styles.background} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         <ImageBackground source={require('../assets/module2-texture.png')} style={styles.imageTexture} >
           <View style={styles.row}>
-            <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+            <TouchableOpacity disabled={props.passageHistory.length <= 1} style={styles.backButton} onPress={handleBackPress}>
               <View>
-                <Icon name='undo' size={30} color={props.passageHistory.length ? '#555' : '#55555550'} />
+                <Icon name='undo' size={30} color={props.passageHistory.length > 1 ? '#555' : '#55555550'} />
               </View>
             </TouchableOpacity>
             

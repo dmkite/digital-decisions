@@ -58,7 +58,7 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
   const [isUploading, changeUpload] = useState<boolean>(false)
   const [message, setMessage] = useState<string | null>(null)
   const [severity, setSeverity] = useState<"ERROR" | "SUCCESS" | null>(null)
-  
+
   const handleUpload = async () => {
     changeUpload(true)
 
@@ -78,12 +78,11 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
       <LinearGradient colors={['#bbb', '#fff']} style={styles.linearGradient} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
         <Header/>
         {isUploading ? <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View> : null}
-        {message ? <Snackbar message={message} severity={severity}/> : null} 
         <ScrollView contentContainerStyle={styles.main}>
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Form')}>
-            <LinearGradient colors={['#393633', '#999693']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
+            <LinearGradient colors={['#2c3e50', '#2980b9']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
               <Icon style={{ lineHeight: 250, alignSelf: 'center' }} name="th-list" size={200} color="white" />
             </LinearGradient>
             <Text style={styles.titleCardFont}>Form</Text>
@@ -99,6 +98,7 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
       </LinearGradient>
       {state.selectedStory && <SelectionModal description={state.selectedStory.description} title={state.selectedStory.title} dispatch={dispatch} navigation={props.navigation} />
       }
+      {message ? <Snackbar message={message} severity={severity}/> : null} 
     </>
   );
 }
