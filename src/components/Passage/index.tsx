@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: AppState): IStateProps => ({
   selectedPassage: state.story.selectedPassage,
   passages: state.story.passages,
-  modNumber: state.story.selectedStory 
+  modNumber: state.story.selectedStory
     ? state.story.selectedStory.moduleNumber
     : ''
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): IDispatchProps => bindActionCreators({
-  selectPassage 
+  selectPassage
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Passage)
