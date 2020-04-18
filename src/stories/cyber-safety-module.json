@@ -38,19 +38,25 @@
           "content": "Now that she's done with school for the day she wants to do something to relax. She could check her Instagram feed, watch Stranger Things, or see if there are any new Snap Stories."
         },
         {
-          "JSXType": "image",
-          "linksTo": "instagram",
-          "content": "instagram-logo.png"
-        },
-        {
-          "JSXType": "image",
-          "linksTo": "netflix",
-          "content": "netflix-logo.png"
-        },
-        {
-          "JSXType": "image",
-          "linksTo": "snap stories",
-          "content": "snapchat-logo.png"
+          "JSXType": "choiceBlock",
+          "linksTo": null,
+          "content": [
+            {
+              "JSXType": "image",
+              "linksTo": "instagram",
+              "content": "instagram-logo.png"
+            },
+            {
+              "JSXType": "image",
+              "linksTo": "netflix",
+              "content": "netflix-logo.png"
+            },
+            {
+              "JSXType": "image",
+              "linksTo": "snap stories",
+              "content": "snapchat-logo.png"
+            }
+          ]
         }
       ]
     },
