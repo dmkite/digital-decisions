@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useReducer, useState } from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -58,10 +58,7 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
   const [isUploading, changeUpload] = useState<boolean>(false)
   const [message, setMessage] = useState<string | null>(null)
   const [severity, setSeverity] = useState<"ERROR" | "SUCCESS" | null>(null)
-  
-  useEffect(() => {
 
-  }, [])
   const handleUpload = async () => {
     changeUpload(true)
 
@@ -85,7 +82,7 @@ const HomeScreen = (props: INavigationProps): JSX.Element => {
           {stories.map((story: any, i: number): JSX.Element => <TitleCard dispatch={dispatch} key={i} {...story} />)}
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Form')}>
-            <LinearGradient colors={['#393633', '#999693']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
+            <LinearGradient colors={['#2c3e50', '#2980b9']} style={styles.titleCard} useAngle={true} angle={-45} angleCenter={{ x: 0.5, y: 0.5 }}>
               <Icon style={{ lineHeight: 250, alignSelf: 'center' }} name="th-list" size={200} color="white" />
             </LinearGradient>
             <Text style={styles.titleCardFont}>Form</Text>

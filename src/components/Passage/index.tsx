@@ -8,12 +8,10 @@ import { AppState } from '../../store'
 import { IJSXContent } from '../../Iredux'
 import Phone from '../Phone'
 import imageMapper from '../../utils/imageMapper'
-import { withOrientation } from 'react-navigation'
 
 const Passage = (props: IPassageProps) => {
   if (!props.selectedPassage) props.selectedPassage = 'Welcome!'
   const handlePress = (passageName: string | null) => props.selectPassage(passageName)
-  let imgChoiceCt = 0
 
   const generateJSX = (passage: IJSXContent, i: number): JSX.Element => {
     switch (passage.JSXType) {
@@ -59,7 +57,7 @@ const Passage = (props: IPassageProps) => {
       case 'choiceBlock':
         return (
           <View style={styles.choiceBlock}>
-            {Array.isArray(passage.content) && passage.content.map(c => {
+            {Array.isArray(passage.content) && passage.content.map((c, i) => {
               const icon = imageMapper[`mod${props.modNumber}`][c.content as keyof typeof imageMapper]
               return (
                 <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
@@ -69,8 +67,6 @@ const Passage = (props: IPassageProps) => {
             })}
           </View>
         )
-      case 'video':
-        
       default:
         return <Text key={i}>Did not account for {passage.JSXType}</Text>
     }
@@ -132,7 +128,7 @@ const styles = StyleSheet.create({
   choiceBlock: {
     flexDirection: 'row',
     justifyContent: 'space-between'
-  }
+  },
 })
 
 const mapStateToProps = (state: AppState): IStateProps => ({

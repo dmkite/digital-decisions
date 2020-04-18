@@ -1,7 +1,8 @@
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import { TouchableOpacity, Text, StyleSheet, Image, Modal } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
 import { ITitleCardProps } from './TitleCard.props'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 interface IImageMapper {
   [key: string]: JSX.Element
@@ -9,7 +10,8 @@ interface IImageMapper {
 
 export default function TitleCard(props: ITitleCardProps): JSX.Element {
   const imageMapper: IImageMapper = {
-    module2: <Image style={styles.icon} source={require('../../assets/wacc-logo.png')} />
+    module2: <Image style={styles.icon} source={require('../../assets/wacc-logo.png')} />,
+    module1: <Icon style={{ lineHeight: 250, alignSelf: 'center' }} name="shield" size={200} color="white" />
   }
 
   const handlePress = () => {

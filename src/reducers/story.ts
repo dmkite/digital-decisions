@@ -4,8 +4,8 @@ import {IStoryState, IAction} from '../Iredux'
  
 const initialState: IStoryState = {
   selectedStory: null,
-  selectedPassage: "video test",//'Welcome!',
-  passageHistory: ["video test"],//['Welcome!'],
+  selectedPassage: 'Welcome!',
+  passageHistory: ['Welcome!'],
   passages: {}
 }
 

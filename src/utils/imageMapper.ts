@@ -44,6 +44,16 @@ const imageMapper: IImage = {
       height: 75,
       width: 75
     },
+    'art.gif': {
+      source: require('../assets/art.gif'),
+      height:275,
+      width:400
+    },
+    'fight.gif': {
+      source: require('../assets/fight.gif'),
+      height:275,
+      width:400
+    },
     'img1.png': {
       source: require('../assets/img1.png'),
       height: 525,

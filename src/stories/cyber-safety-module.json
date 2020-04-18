@@ -1868,9 +1868,9 @@
       "name": "video test",
       "content": [
         {
-          "JSXType": "video",
+          "JSXType": "image",
           "linksTo": null,
-          "content": "fight.mp4"
+          "content": "fight.gif"
         }
       ]
     },
@@ -4317,9 +4317,9 @@
       "name": "cool one",
       "content": [
         {
-          "JSXType": "video",
+          "JSXType": "image",
           "linksTo": null,
-          "content": "art.mp4"
+          "content": "art.gif"
         }
       ]
     },
