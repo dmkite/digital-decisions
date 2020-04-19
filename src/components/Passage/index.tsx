@@ -60,7 +60,7 @@ const Passage = (props: IPassageProps) => {
             {Array.isArray(passage.content) && passage.content.map((c, i) => {
               const icon = imageMapper[`mod${props.modNumber}`][c.content as keyof typeof imageMapper]
               return (
-                <TouchableOpacity onPress={() => handlePress(passage.linksTo)} key={i}>
+                <TouchableOpacity onPress={() => handlePress(c.linksTo)} key={i}>
                   <Image style={[styles.choiceIcon, { height: icon.height, width: icon.width }]} source={icon.source} />
                 </TouchableOpacity>
               )
