@@ -91,8 +91,8 @@ const imageMapper: IImage = {
     }
   },
   general: {
-    'wacc-logo.jpg': {
-      source: require('../assets/wacc-logo.jpg'),
+    'wacc-banner.jpg': {
+      source: require('../assets/wacc-banner.jpg'),
       height: 85,
       width: 450
     },

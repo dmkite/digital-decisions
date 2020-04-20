@@ -45,13 +45,15 @@ const AppContainer = createAppContainer(MainNavigator)
 const App = () => {
   const getStatus = async () => {
     const status = await BackgroundTask.statusAsync()
-    console.table(status)
+    console.log(status)
   }
+
   useEffect(() => {
+    BackgroundTask.schedule({period: 900})
     console.log('Background is firing')
     getStatus()
-    return BackgroundTask.schedule({period: 900})
     }, [])
+
   return (
     <Provider store={store}>
       <AppContainer />
