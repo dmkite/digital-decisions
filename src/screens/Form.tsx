@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import DemographicQuestions from '../components/DemographicQuestions'
-import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
+import { School, Race, Gender, Grade } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
 import Header from '../components/Header'
@@ -11,13 +11,15 @@ import Snackbar from '../components/Snackbar'
 export interface IFormVals {
   demographics: {
     school: School | ''
+    grade: Grade | ''
     zipCode: string
     age: string
     race: Race | ''
     gender: Gender | ''
     altSchool: string
     altRace: string
-    altGender: string
+    altGender: string,
+    altGrade: string
   },
   trueFalse: {
     [key: string]: boolean | null
@@ -25,13 +27,13 @@ export interface IFormVals {
     q2: boolean | null
     q3: boolean | null
     q4: boolean | null
-    q5: boolean | null
+    q5: boolean | null,
+    q6: boolean | null
   },
   shortAnswer: {
     [key: string]: string
     q1: string
     q2: string
-    q3: string
   }
 }
 
@@ -67,13 +69,15 @@ const initialState: IFormState = {
   },
   demographics: {
     school: '',
+    grade: '',
     zipCode: '',
     age: '',
     race: '',
     gender: '',
     altSchool: '',
     altGender: '',
-    altRace: ''
+    altRace: '',
+    altGrade: ''
   },
   isSubmitting: false,
   isSubmitted: false,
@@ -84,13 +88,13 @@ const initialState: IFormState = {
     q2: null,
     q3: null,
     q4: null,
-    q5: null
+    q5: null,
+    q6: null
   },
 
   shortAnswer: {
     q1: '',
     q2: '',
-    q3: ''
   },
   isCollapsed: {
     demographics: false,
@@ -152,6 +156,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.ENTRY:
       return { ...state, [field]: value }
     case Action.ENTER_DEMO:
+      console.log(field, value)
       return { ...state, demographics: { ...state.demographics, [field]: value } }
     case Action.ENTER_T_F:
       return { ...state, trueFalse: { ...state.trueFalse, [field]: (value as boolean) } }

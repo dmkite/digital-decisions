@@ -6,12 +6,12 @@ export enum School {
 }
 
 export enum Race {
-    Asian = "Asian",
-    Black = "Black",
-    Latinx = "Latinx",
+    Black = "African American/Black",
+    Asian = "Asian/Pacific Islander",
+    White = "Caucasian/White",
+    Latinx = "Hispanic/Latinx",
     MixedRace = "Mixed Race",
-    NativeAmerican = "Native American",
-    White = "White",
+    NativeAmerican = "American Indian/Alaska Native",
     NotListed = "Not listed",
     preferNot = "Prefer not to say"
 }
@@ -21,6 +21,17 @@ export enum Gender {
     female = "Female",
     NotListed = "Not listed",
     preferNot = "Prefer not to say"
+}
+
+export enum Grade {
+    sixth = '6th',
+    seventh = '7th',
+    eigth = '8th',
+    ninth = '9th',
+    tenth = '10th',
+    eleventh = '11th',
+    twelfth = '12th',
+    NotListed = 'Not Listed'
 }
 
 interface IAction {
@@ -57,12 +68,14 @@ export default interface IDemoProps {
      */
     demographics: {
         school: string
-        zipCode: string
+        zipCode: string,
+        grade: string,
         age: string
         race: string
         gender: string
         altSchool: string
         altGender: string
-        altRace: string
+        altRace: string,
+        altGrade: string
     }
 }

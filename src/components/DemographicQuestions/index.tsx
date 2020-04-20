@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Picker, TextInput } from 'react-native'
-import IDemoProps, { Gender, Race } from './DemoProps'
+import IDemoProps, { Gender, Race, Grade } from './DemoProps'
 import RadioSelect from '../RadioSelect'
 import schoolList from '../../assets/schoolList.json'
 const WHY_DEMOGRAPHICS: string = "WACC is a nonprofit. We don't sell a product to make money. Instead we rely on grants to fund our free programs. Some grants ask questions about the people we work with. It may seem strange, but some grants request demographics for age, race, and gender. If we don't have that information, we can't apply for the grants. Thanks for helping us out!"
@@ -31,6 +31,32 @@ const DemographicQuestions = (props: IDemoProps) => {
               style={[styles.input, styles.hiddenInput]}
               onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'altSchool', value } })}
               value={demographics.altSchool} />
+            : null
+        }
+      </View>
+
+      <Text style={styles.label}>What grade are you in?</Text>
+      <View style={styles.hiddenField}>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={demographics.grade || 'Select a grade'}
+            style={styles.picker}
+            onValueChange={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'grade', value } })}
+          >
+            <Picker.Item label="Select a grade" value={demographics.grade} />
+            {Object.values(Grade).map((grade: string, i: number): JSX.Element => {
+
+              return <Picker.Item key={i} label={grade} value={grade} />
+            })}
+          </Picker>
+
+        </View>
+        {
+          demographics.grade === "Not Listed"
+            ? <TextInput
+              style={[styles.input, styles.hiddenInput]}
+              onChangeText={value => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'altGrade', value } })}
+              value={demographics.altGrade} />
             : null
         }
       </View>
@@ -104,7 +130,7 @@ const DemographicQuestions = (props: IDemoProps) => {
         value={demographics.age}
         onChangeText={(value: string) => dispatch({ type: Action.ENTER_DEMO, payload: { field: 'age', value } })} />
 
-      <Text style={styles.label}>What's your zip code?</Text>
+      <Text style={styles.label}>What's your home zip code?</Text>
       <TextInput
         style={[styles.input, { width: '33%' }]}
         maxLength={5}
