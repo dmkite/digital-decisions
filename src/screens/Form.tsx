@@ -2,15 +2,18 @@ import React, { useReducer } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import DemographicQuestions from '../components/DemographicQuestions'
-import { School, Race, Gender } from '../components/DemographicQuestions/DemoProps'
+import { School, Race, Gender, Grade } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
+import MultipleChoice from '../components/MultipleChoice'
 import Header from '../components/Header'
 import Snackbar from '../components/Snackbar'
+import moment from 'moment'
 
 export interface IFormVals {
   demographics: {
     school: School | ''
+    grade: Grade | ''
     zipCode: string
     age: string
     race: Race | ''
@@ -18,6 +21,7 @@ export interface IFormVals {
     altSchool: string
     altRace: string
     altGender: string
+    altGrade: string
   },
   trueFalse: {
     [key: string]: boolean | null
@@ -26,12 +30,16 @@ export interface IFormVals {
     q3: boolean | null
     q4: boolean | null
     q5: boolean | null
+    q6: boolean | null
+  },
+  multiChoice: {
+    q1: 'a' | 'b' | 'c' | null
+    q2: 'a' | 'b' | 'c' | null
   },
   shortAnswer: {
     [key: string]: string
     q1: string
     q2: string
-    q3: string
   }
 }
 
@@ -53,6 +61,7 @@ interface IFormState extends IFormVals {
     demographics: boolean
     trueFalse: boolean
     shortAnswer: boolean
+    multiChoice: boolean
   }
 }
 
@@ -67,13 +76,15 @@ const initialState: IFormState = {
   },
   demographics: {
     school: '',
+    grade: '',
     zipCode: '',
     age: '',
     race: '',
     gender: '',
     altSchool: '',
     altGender: '',
-    altRace: ''
+    altRace: '',
+    altGrade: ''
   },
   isSubmitting: false,
   isSubmitted: false,
@@ -84,18 +95,24 @@ const initialState: IFormState = {
     q2: null,
     q3: null,
     q4: null,
-    q5: null
+    q5: null,
+    q6: null
   },
 
   shortAnswer: {
     q1: '',
     q2: '',
-    q3: ''
+  },
+
+  multiChoice: {
+    q1: null,
+    q2: null
   },
   isCollapsed: {
     demographics: false,
     trueFalse: true,
     shortAnswer: true,
+    multiChoice: true
   }
 }
 
@@ -113,6 +130,7 @@ enum Action {
   ENTRY = 'ENTRY',
   ENTER_DEMO = 'ENTER_DEMO',
   ENTER_T_F = 'ENTER_T_F',
+  ENTER_MULTI_CHOICE = 'ENTER_MULTI_CHOICE',
   ENTER_SHORT_ANSWER = 'ENTER_SHORT_ANSWER',
   SHOW_HIDE_SECTION = 'SHOW_HIDE_SECTION',
   REQUEST_INFO = 'REQUEST_INFO',
@@ -147,6 +165,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
           demographics: true,
           trueFalse: true,
           shortAnswer: true,
+          multiChoice: true
         }
       }
     case Action.ENTRY:
@@ -155,6 +174,8 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
       return { ...state, demographics: { ...state.demographics, [field]: value } }
     case Action.ENTER_T_F:
       return { ...state, trueFalse: { ...state.trueFalse, [field]: (value as boolean) } }
+    case Action.ENTER_MULTI_CHOICE:
+      return {...state, multiChoice: {...state.multiChoice, [field]: value}}
     case Action.ENTER_SHORT_ANSWER:
       return { ...state, shortAnswer: { ...state.shortAnswer, [field]: (value as string) } }
     case Action.REQUEST_INFO:
@@ -172,6 +193,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
 
 const hasEntries = (formResults: any): boolean => {
   for (let key of Object.keys(formResults)) {
+    if(key === 'date') continue
     for (let subKey of Object.keys(formResults[key])) {
       if (formResults[key][subKey] || formResults[key][subKey] === false) {
         return true
@@ -187,9 +209,11 @@ const Form = (props: any) => {
   const handleSubmit = async (): Promise<any> => {
     dispatch({ type: Action.SUBMIT })
     const formResults = {
+      date: moment().format('L'),
       trueOrFalse: state.trueFalse,
       demographics: state.demographics,
-      shortAnswer: state.shortAnswer
+      shortAnswer: state.shortAnswer,
+      multiChoice: state.multiChoice
     }
     const shouldStore = hasEntries(formResults)
     if (!shouldStore) {
@@ -216,9 +240,9 @@ const Form = (props: any) => {
     <>
       <Header />
       {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
-      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS"/>}
-      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR"/>}
-      
+      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS" />}
+      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR" />}
+
       <ScrollView style={styles.form}>
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'demographics', value: '' } })}>
           <Text style={styles.sectionTitle}>Demographics</Text>
@@ -251,6 +275,24 @@ const Form = (props: any) => {
         }
         <View style={styles.underline} />
 
+
+        <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'multiChoice', value: '' } })}>
+          <Text style={styles.sectionTitle}>Multiple Choice</Text>
+          <Text style={styles.sectionTitleExpand}>{state.isCollapsed.multiChoice ? '+' : '-'}</Text>
+        </TouchableOpacity>
+
+        {state.isCollapsed.multiChoice
+          ? null
+          : <MultipleChoice
+            Action={Action}
+            dispatch={dispatch}
+            multiChoice={state.multiChoice}
+          />
+        }
+        <View style={styles.underline} />
+
+
+
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'shortAnswer', value: '' } })}>
           <Text style={styles.sectionTitle}>Short Answer</Text>
           <Text style={styles.sectionTitleExpand}>{state.isCollapsed.shortAnswer ? '+' : '-'}</Text>
@@ -267,7 +309,9 @@ const Form = (props: any) => {
 
         <View style={styles.underline} />
 
-        <Button onPress={handleSubmit} title="submit" />
+        <View style={styles.submit}>
+          <Button onPress={handleSubmit} title="submit" />
+        </View>
       </ScrollView>
     </>
   )
@@ -290,7 +334,6 @@ const styles = StyleSheet.create({
   },
   form: {
     padding: 20,
-    paddingBottom: 100
   },
   link: {
     color: 'teal'
@@ -337,6 +380,9 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     borderBottomWidth: 2,
     borderBottomColor: "#ddd"
+  },
+  submit: {
+    marginBottom: 100,
   }
 })
 

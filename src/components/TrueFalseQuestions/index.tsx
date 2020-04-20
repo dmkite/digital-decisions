@@ -12,7 +12,8 @@ const TrueFalseQuestions = (props: ITrueFalseProps) => {
           key={i}
           question={TrueFalse[key as keyof typeof TrueFalse]}
           callback={(value: boolean | string) => {
-            dispatch({ type: Action.ENTER_T_F, payload: { field: key, value: Boolean(value) } }
+            const bool = value === 'true'
+            dispatch({ type: Action.ENTER_T_F, payload: { field: key, value: bool } }
             )
           }}
           answerValues={['true', 'false']}
