@@ -5,6 +5,7 @@ import DemographicQuestions from '../components/DemographicQuestions'
 import { School, Race, Gender, Grade } from '../components/DemographicQuestions/DemoProps'
 import TrueFalseQuestions from '../components/TrueFalseQuestions'
 import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
+import MultipleChoice from '../components/MultipleChoice'
 import Header from '../components/Header'
 import Snackbar from '../components/Snackbar'
 
@@ -18,7 +19,7 @@ export interface IFormVals {
     gender: Gender | ''
     altSchool: string
     altRace: string
-    altGender: string,
+    altGender: string
     altGrade: string
   },
   trueFalse: {
@@ -27,8 +28,12 @@ export interface IFormVals {
     q2: boolean | null
     q3: boolean | null
     q4: boolean | null
-    q5: boolean | null,
+    q5: boolean | null
     q6: boolean | null
+  },
+  multiChoice: {
+    q1: 'a' | 'b' | 'c' | null
+    q2: 'a' | 'b' | 'c' | null
   },
   shortAnswer: {
     [key: string]: string
@@ -55,6 +60,7 @@ interface IFormState extends IFormVals {
     demographics: boolean
     trueFalse: boolean
     shortAnswer: boolean
+    multiChoice: boolean
   }
 }
 
@@ -96,10 +102,16 @@ const initialState: IFormState = {
     q1: '',
     q2: '',
   },
+
+  multiChoice: {
+    q1: null,
+    q2: null
+  },
   isCollapsed: {
     demographics: false,
     trueFalse: true,
     shortAnswer: true,
+    multiChoice: true
   }
 }
 
@@ -151,6 +163,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
           demographics: true,
           trueFalse: true,
           shortAnswer: true,
+          multiChoice: true
         }
       }
     case Action.ENTRY:
@@ -255,6 +268,24 @@ const Form = (props: any) => {
           />
         }
         <View style={styles.underline} />
+
+
+        <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'multiChoice', value: '' } })}>
+          <Text style={styles.sectionTitle}>Multiple Choice</Text>
+          <Text style={styles.sectionTitleExpand}>{state.isCollapsed.multiChoice ? '+' : '-'}</Text>
+        </TouchableOpacity>
+
+        {state.isCollapsed.multiChoice
+          ? null
+          : <MultipleChoice
+            Action={Action}
+            dispatch={dispatch}
+            multiChoice={state.multiChoice}
+          />
+        }
+        <View style={styles.underline} />
+
+
 
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'shortAnswer', value: '' } })}>
           <Text style={styles.sectionTitle}>Short Answer</Text>
