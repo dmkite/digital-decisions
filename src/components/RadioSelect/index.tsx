@@ -18,7 +18,6 @@ const RadioSelect = (props: IRadioProps): JSX.Element => {
             <Text style={styles.label}>{String(val)}</Text>
           </View>
         </TouchableWithoutFeedback>
-
       ))}
     </View>
   )

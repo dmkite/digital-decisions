@@ -40,7 +40,7 @@ export default interface IMultiChoiceProps {
     [key: string]: string
   }
   /**
-   * The portion ofr state devoted to multiple choice answers
+   * The portion of state devoted to multiple choice answers
    */
   multiChoice: {
     q1: 'a' | 'b' | 'c' | null

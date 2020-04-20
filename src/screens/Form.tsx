@@ -8,6 +8,7 @@ import ShortAnswerQuestions from '../components/ShortAnswerQuestions'
 import MultipleChoice from '../components/MultipleChoice'
 import Header from '../components/Header'
 import Snackbar from '../components/Snackbar'
+import moment from 'moment'
 
 export interface IFormVals {
   demographics: {
@@ -129,6 +130,7 @@ enum Action {
   ENTRY = 'ENTRY',
   ENTER_DEMO = 'ENTER_DEMO',
   ENTER_T_F = 'ENTER_T_F',
+  ENTER_MULTI_CHOICE = 'ENTER_MULTI_CHOICE',
   ENTER_SHORT_ANSWER = 'ENTER_SHORT_ANSWER',
   SHOW_HIDE_SECTION = 'SHOW_HIDE_SECTION',
   REQUEST_INFO = 'REQUEST_INFO',
@@ -169,10 +171,11 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
     case Action.ENTRY:
       return { ...state, [field]: value }
     case Action.ENTER_DEMO:
-      console.log(field, value)
       return { ...state, demographics: { ...state.demographics, [field]: value } }
     case Action.ENTER_T_F:
       return { ...state, trueFalse: { ...state.trueFalse, [field]: (value as boolean) } }
+    case Action.ENTER_MULTI_CHOICE:
+      return {...state, multiChoice: {...state.multiChoice, [field]: value}}
     case Action.ENTER_SHORT_ANSWER:
       return { ...state, shortAnswer: { ...state.shortAnswer, [field]: (value as string) } }
     case Action.REQUEST_INFO:
@@ -190,6 +193,7 @@ const reducer = (state: IFormState, action: IFormAction): IFormState => {
 
 const hasEntries = (formResults: any): boolean => {
   for (let key of Object.keys(formResults)) {
+    if(key === 'date') continue
     for (let subKey of Object.keys(formResults[key])) {
       if (formResults[key][subKey] || formResults[key][subKey] === false) {
         return true
@@ -205,9 +209,11 @@ const Form = (props: any) => {
   const handleSubmit = async (): Promise<any> => {
     dispatch({ type: Action.SUBMIT })
     const formResults = {
+      date: moment().format('L'),
       trueOrFalse: state.trueFalse,
       demographics: state.demographics,
-      shortAnswer: state.shortAnswer
+      shortAnswer: state.shortAnswer,
+      multiChoice: state.multiChoice
     }
     const shouldStore = hasEntries(formResults)
     if (!shouldStore) {
