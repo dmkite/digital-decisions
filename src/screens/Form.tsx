@@ -216,9 +216,9 @@ const Form = (props: any) => {
     <>
       <Header />
       {state.isSubmitting && <View style={styles.screen}><ActivityIndicator size="large" color="teal" /></View>}
-      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS"/>}
-      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR"/>}
-      
+      {state.isSubmitted && <Snackbar message="Thanks for completing our form!" severity="SUCCESS" />}
+      {state.error && <Snackbar message="Uh oh. Something went wrong." severity="ERROR" />}
+
       <ScrollView style={styles.form}>
         <TouchableOpacity style={styles.titleRow} onPress={() => dispatch({ type: Action.SHOW_HIDE_SECTION, payload: { field: 'demographics', value: '' } })}>
           <Text style={styles.sectionTitle}>Demographics</Text>
@@ -267,7 +267,9 @@ const Form = (props: any) => {
 
         <View style={styles.underline} />
 
-        <Button onPress={handleSubmit} title="submit" />
+        <View style={styles.submit}>
+          <Button onPress={handleSubmit} title="submit" />
+        </View>
       </ScrollView>
     </>
   )
@@ -290,7 +292,6 @@ const styles = StyleSheet.create({
   },
   form: {
     padding: 20,
-    paddingBottom: 100
   },
   link: {
     color: 'teal'
@@ -337,6 +338,9 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     borderBottomWidth: 2,
     borderBottomColor: "#ddd"
+  },
+  submit: {
+    marginBottom: 100,
   }
 })
 
