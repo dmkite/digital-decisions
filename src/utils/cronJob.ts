@@ -26,7 +26,16 @@ const getAndSend = async (asyncStorageKey: string, url: string) => {
     return `Successfully sent ${parsedVals.length} form response${parsedVals.length > 1 ? 's': ''}`
   } catch(err) {
     console.error(err.message)
-    storeErrors(err)
+    await axios({
+      method: 'post',
+      url: 'https://dylankite.com/api/contact',
+      data: {
+        email: 'kite.d92@gmail.com',
+        message: err.message,
+        name: 'WACC App',
+        token: null
+      }
+    })
     return `Something went wrong.`
   }
 }
@@ -36,7 +45,6 @@ const checkConnectivity = async (): Promise<boolean> => {
     const netInfo = await NetInfo.fetch()
     return Boolean(netInfo.isInternetReachable)
   }catch(err) {
-    await storeErrors(err)
     return false
   }
 }
@@ -45,22 +53,4 @@ interface IError {
   timestamp: number
   message: string
   stack: string
-}
-
-// TODO: implement this in a separate google sheet that I control
-export const storeErrors = async (error: Error): Promise<boolean> => {
-  try {
-    const errors: string | null = await AsyncStorage.getItem('errors')
-    const parsedErrors: IError[] = errors ? JSON.parse(errors) : []
-    const formattedError: IError = {
-      timestamp: Date.now(),
-      message: error.message,
-      stack: String(error.stack)
-    }
-    parsedErrors.push(formattedError)
-    await AsyncStorage.setItem('errors', JSON.stringify(parsedErrors))
-    return true
-  } catch(err) {  
-    return false
-  }
 }
