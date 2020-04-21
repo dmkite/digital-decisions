@@ -7,15 +7,21 @@ import Form from './src/screens/Form'
 import React, {useEffect} from 'react'
 import store from './src/store'
 import {cronjob} from './src/utils/cronJob'
-import BackgroundTask from 'react-native-background-task'
+import axios from 'axios'
+const BackgroundTask = require('react-native-background-task')
 
 BackgroundTask.define(async (): Promise<void> => {
-  console.log('FIRING')
-  console.log('FIRING')
-  console.log('FIRING')
-  console.log('FIRING')
-
   await cronjob()
+  await axios({
+    method: 'post',
+    url: 'https://dylankite.com/api/contact',
+    data: {
+      name: 'WACC App',
+      message: 'Background task successfully executed',
+      email: 'kite.d92@gmail.com',
+      token: null
+    }
+  })
   BackgroundTask.finish()
 })
 
@@ -50,7 +56,6 @@ const App = () => {
 
   useEffect(() => {
     BackgroundTask.schedule({period: 900})
-    console.log('Background is firing')
     getStatus()
     }, [])
 

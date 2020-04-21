@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   genericImage: {
-    height: 600, width: 200, alignSelf: 'center'
+    height: 600, width: 200, alignSelf: 'center', marginBottom: 20
   },
   choiceIcon: {
     width: 75,
