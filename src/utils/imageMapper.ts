@@ -26,8 +26,8 @@ const imageMapper: IImage = {
     },
     'ok2say.png': {
       source: require('../assets/ok2say.png'),
-      height: 75,
-      width: 75
+      height: 208,
+      width: 350
     },
     'photoshop.jpg': {
       source: require('../assets/photoshop.jpg'),
