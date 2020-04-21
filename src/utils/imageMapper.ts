@@ -104,8 +104,8 @@ const imageMapper: IImage = {
     },
     'wacc-mini-logo.png': {
       source: require('../assets/wacc-logo.png'),
-      height: 75,
-      width: 75
+      height: 30,
+      width: 30
     },
   }
 }

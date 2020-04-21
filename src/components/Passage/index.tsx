@@ -45,6 +45,13 @@ const Passage = (props: IPassageProps) => {
         let image = imageMapper[`mod${props.modNumber}`][passage.content as keyof typeof imageMapper]
         if (!image) image = imageMapper.general[passage.content as keyof typeof imageMapper]
         if (typeof passage.content === 'string') {
+          if(passage.content ==='wacc-mini-logo.png') {
+            return <Image
+            key={i}
+            style={[styles.miniLogo, { height: image.height, width: image.width}]}
+            source={image.source}
+          />
+          }
           return <Image
             key={i}
             style={[(passage.content.includes('bio')
@@ -129,6 +136,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+  miniLogo: {
+    alignSelf: 'flex-end'
+  }
 })
 
 const mapStateToProps = (state: AppState): IStateProps => ({
