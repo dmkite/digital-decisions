@@ -20,7 +20,7 @@ const Phone = (props: IPhoneProps): JSX.Element => {
         <View style={styles.utilBar}>
           <Icon name="chevron-left" size={20} color="#0176FD" />
           <View style={styles.contact}>
-            <Text style={styles.profileLetter}>{props.name[0]}</Text>
+            <Text style={styles.profileLetter}>{props.name[0] !== '(' ? props.name[0] : '?'}</Text>
             <Text style={styles.contactName}>{props.name} ></Text>
           </View>
           <View style={{ width: 20 }}></View>
@@ -122,19 +122,19 @@ const styles = StyleSheet.create({
     lineHeight: 30
   },
   text: {
-    backgroundColor: '#E5E4E9',
+    backgroundColor: '#0680FE',
     borderRadius: 22,
     maxWidth: '70%',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
     padding: 10,
     paddingHorizontal: 15,
-    color: 'black',
+    color: '#fff',
     marginBottom: 10
   },
   received: {
-    backgroundColor: '#0680FE',
-    color: '#fff',
-    alignSelf: 'flex-end',
+    backgroundColor: '#E5E4E9',
+    color: '#000',
+    alignSelf: 'flex-start',
   }
 })
 

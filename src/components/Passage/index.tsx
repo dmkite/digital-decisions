@@ -63,11 +63,11 @@ const Passage = (props: IPassageProps) => {
         }
       case 'choiceBlock':
         return (
-          <View style={styles.choiceBlock}>
-            {Array.isArray(passage.content) && passage.content.map((c, i) => {
+          <View style={styles.choiceBlock} key={i}>
+            {Array.isArray(passage.content) && passage.content.map((c, j) => {
               const icon = imageMapper[`mod${props.modNumber}`][c.content as keyof typeof imageMapper]
               return (
-                <TouchableOpacity onPress={() => handlePress(c.linksTo)} key={i}>
+                <TouchableOpacity onPress={() => handlePress(c.linksTo)} key={j}>
                   <Image style={[styles.choiceIcon, { height: icon.height, width: icon.width }]} source={icon.source} />
                 </TouchableOpacity>
               )

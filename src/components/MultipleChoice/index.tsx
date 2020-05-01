@@ -37,10 +37,10 @@ const MultipleChoice = (props: IMultiChoiceProps) => {
       {Object.keys(multipleChoice).map((q: string, i: number) => {
         const qAndA = multipleChoice[q as keyof typeof multipleChoice]
         return (
-          <View style={styles.questionBlock}>
+          <View key={i} style={styles.questionBlock}>
             <Text style={styles.question}>{qAndA.question}</Text>
-            {Object.keys(qAndA.answers).map((a: string, i: number) => (
-              <TouchableWithoutFeedback key={i} onPress={() => handlePress(q, a)}>
+            {Object.keys(qAndA.answers).map((a: string, j: number) => (
+              <TouchableWithoutFeedback key={j} onPress={() => handlePress(q, a)}>
                 <View style={styles.radioHolder}>
                   <View style={[styles.radio, props.multiChoice[q as keyof typeof multipleChoice] === a ? styles.filled : null]}></View>
                   <Text style={styles.label}>{qAndA.answers[a]}</Text>
