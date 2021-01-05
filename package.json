@@ -14,7 +14,7 @@
     "@react-native-community/masked-view": "^0.1.6",
     "@react-native-community/netinfo": "^5.3.3",
     "@types/query-string": "^6.3.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "formik": "^2.1.2",
     "moment": "^2.24.0",
     "query-string": "^6.10.1",
