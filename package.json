@@ -16,7 +16,7 @@
     "@types/query-string": "^6.3.0",
     "axios": "^0.19.2",
     "formik": "^2.1.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "query-string": "^6.10.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
